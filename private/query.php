@@ -1,7 +1,7 @@
 <?php
 require_once(__ROOT__ . '/private/database.php');
 
-function select_users_table($connection){
+function select_user_table($connection){
     $query = "SELECT * FROM `user` ";
     return mysqli_query($connection, $query);
 }
@@ -12,3 +12,10 @@ function select_user_by_pseudo($connection, $pseudo){
     return mysqli_query($connection, $query);
 }
 
+function add_new_user($connection, $username, $email, $password){
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    $query = "INSERT INTO `user` (pseudo, email, password) ";
+    $query.= "VALUES ('". $username."', '".$email."', '".$password."');";
+    echo $query . "<br>";
+    return mysqli_query($connection, $query);
+}

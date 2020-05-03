@@ -4,30 +4,46 @@ require_once(__ROOT__ . '/private/database.php');
 require_once(__ROOT__ . '/private/query.php');
 
 $username = "";
+$email = "";
 $password = "";
+$confirmPassword = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $username = $_POST['username'] ? $_POST['username'] : '';
+    $email = $_POST['email'] ? $_POST['email'] : '';
     $password = $_POST['password'] ? $_POST['password'] : '';
+    $confirmPassword = $_POST['confirmPassword'] ? $_POST['confirmPassword'] : '';
 
-    if ($username != '') {
-        $connexion = connect_db();
-        $result = select_user_by_pseudo($connexion, $username);
-        $result = mysqli_fetch_assoc($result);
-        if (password_verify($password, $result['password'])){
-            echo "CONNECTION";
-            header("Location: home.php");
+    if ($username != '' && $email != '' && $password != '' && $confirmPassword != ''){
+        $connection = connect_db();
+        if ($users = select_user_table($connection)){
+            $freeUsername = true;
+            $freeEmail = true;
+            while ($user = mysqli_fetch_assoc($users)){
+                if ($user['pseudo'] == $username){
+                    $freeUsername = false;
+                    echo "Le pseudo est déjà pris <br>";
+                }
+                if ($user['email'] == $email){
+                    $freeEmail = false;
+                    echo "Le mail est déjà pris <br>";
+                }
+            }
         }
-        else{
-            echo "Wrong password...";
+        mysqli_free_result($users);
+        if ($freeUsername && $freeEmail){
+            if($password == $confirmPassword){
+                $result = add_new_user($connection, $username, $email, $password);
+                var_dump($result);
+            }
         }
-        mysqli_free_result($result);
-        disconnect_db($connexion);
+
     }
     else{
-        echo "Faut remplir les champs";
+        echo "faut tout remplir !";
     }
+
 }
 
 ?>
@@ -38,7 +54,7 @@ ob_start();?>
 
     <body>
     <div id="login">
-        <h3 class="text-center text-white pt-5">Login form</h3>
+        <h3 class="text-center text-white pt-5">Sign In form</h3>
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
@@ -50,8 +66,16 @@ ob_start();?>
                                 <input type="text" name="username" id="username" class="form-control">
                             </div>
                             <div class="form-group">
+                                <label for="email" class="text-info">Email:</label><br>
+                                <input type="email" name="email" id="email" class="form-control">
+                            </div>
+                            <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
                                 <input type="text" name="password" id="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="text-info">Confirm Password:</label><br>
+                                <input type="text" name="confirmPassword" id="confirmPassword" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
