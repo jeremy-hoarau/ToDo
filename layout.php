@@ -6,12 +6,12 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href= <?php echo __ROOT__.'/public/home.php';?> >TODO</a>
+                    <a class="nav-link" href= <?php echo __ROOT__.'\public\home.php';?> >TODO</a>
                 </li>
             </ul>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href= <?php echo __ROOT__.'/public/home.php';?> >Home</a>
+                    <a class="nav-link" href= <?php echo __ROOT__.'\public\home.php';?> >Home</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Friends</a>
@@ -23,7 +23,7 @@
                     </svg>
                 </li>
             </ul>
-            <button type="button" class="btn btn-info my-2 my-lg-0">Log In</button>
+            <button type="button" class="btn btn-info my-2 my-lg-0" >Log In</button>
         </div>
     </nav>
 

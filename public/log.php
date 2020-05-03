@@ -16,17 +16,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $result = select_user_by_pseudo($connexion, $username);
         $result = mysqli_fetch_assoc($result);
         if (password_verify($password, $result['password'])){
-            echo "CONNECTION";
             header("Location: home.php");
         }
         else{
-            echo "Wrong password...";
+            echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Mauvais mot de passe!
+                            </div>";
         }
         mysqli_free_result($result);
         disconnect_db($connexion);
     }
     else{
-        echo "Faut remplir les champs";
+        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Il faut remplir tous les champs!
+                            </div>";
     }
 }
 

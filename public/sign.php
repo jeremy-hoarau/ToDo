@@ -16,32 +16,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $confirmPassword = $_POST['confirmPassword'] ? $_POST['confirmPassword'] : '';
 
     if ($username != '' && $email != '' && $password != '' && $confirmPassword != ''){
-        $connection = connect_db();
-        if ($users = select_user_table($connection)){
+        $connexion = connect_db();
+        if ($users = select_user_table($connexion)){
             $freeUsername = true;
             $freeEmail = true;
             while ($user = mysqli_fetch_assoc($users)){
                 if ($user['pseudo'] == $username){
                     $freeUsername = false;
-                    echo "Le pseudo est déjà pris <br>";
+                    echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Le pseudo est déjà pris!
+                            </div>";
                 }
                 if ($user['email'] == $email){
                     $freeEmail = false;
-                    echo "Le mail est déjà pris <br>";
+                    echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Le mail est déjà pris!
+                            </div>";
                 }
             }
         }
         mysqli_free_result($users);
         if ($freeUsername && $freeEmail){
             if($password == $confirmPassword){
-                $result = add_new_user($connection, $username, $email, $password);
-                var_dump($result);
+                $result = add_new_user($connexion, $username, $email, $password);
+                mysqli_free_result($result);
+                disconnect_db($connexion);
+                header("Location: home.php");
+            }
+            else{
+                echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Les mots de passe ne sont pas identiques!
+                            </div>";
+
             }
         }
 
     }
     else{
-        echo "faut tout remplir !";
+        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Il faut remplir tous les champs!
+                            </div>";
     }
 
 }
