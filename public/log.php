@@ -1,7 +1,7 @@
 <?php
-define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__ . '/private/database.php');
-require_once(__ROOT__ . '/private/query.php');
+require_once('../private/config.php');
+require_once(PRIVATE_PATH . '/database.php');
+require_once(PRIVATE_PATH . '/query.php');
 
 $username = "";
 $password = "";
@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if ($username != '') {
         $connexion = connect_db();
         $result = select_user_by_pseudo($connexion, $username);
-        $result = mysqli_fetch_assoc($result);
-        if (password_verify($password, $result['password'])){
-            header("Location: home.php");
+        $result_assoc = mysqli_fetch_assoc($result);
+        if (password_verify($password, $result_assoc['password'])){
+            header("Location: index.php");
         }
         else{
             echo "<div class=\"alert alert-danger\" role=\"alert\">
@@ -36,12 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 
 <?php
-require_once(__ROOT__. '/config.php');
 ob_start();?>
 
     <body>
     <div id="login">
-        <h3 class="text-center text-white pt-5">Login form</h3>
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
@@ -61,7 +59,7 @@ ob_start();?>
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
                             </div>
                             <div id="register-link" class="text-right">
-                                <a href="#" class="text-info">Register here</a>
+                                <a href="<?php echo url_for('/sign.php') ?>" class="text-info">Register here</a>
                             </div>
                         </form>
                     </div>
@@ -72,4 +70,4 @@ ob_start();?>
     </body>
 
 <?php $content = ob_get_clean();
-require(__ROOT__ . '/layout.php');?>
+require(PUBLIC_PATH . '/layout.php');?>

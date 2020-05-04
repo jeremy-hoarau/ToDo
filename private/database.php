@@ -1,5 +1,5 @@
 <?php
-require_once(__ROOT__ . '/private/config_db.php');
+require_once(PRIVATE_PATH . '/config_db.php');
 
 function connect_db() {
     $connection = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);

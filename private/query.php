@@ -1,5 +1,5 @@
 <?php
-require_once(__ROOT__ . '/private/database.php');
+require_once(PRIVATE_PATH . '/database.php');
 
 function select_user_table($connection){
     $query = "SELECT * FROM `user` ";

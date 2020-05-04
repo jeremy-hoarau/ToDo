@@ -1,7 +1,7 @@
 <?php
-define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__ . '/private/database.php');
-require_once(__ROOT__ . '/private/query.php');
+require_once('../private/config.php');
+require_once(PRIVATE_PATH . '/database.php');
+require_once(PRIVATE_PATH . '/query.php');
 
 $username = "";
 $email = "";
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $result = add_new_user($connexion, $username, $email, $password);
                 mysqli_free_result($result);
                 disconnect_db($connexion);
-                header("Location: home.php");
+                header("Location: index.php");
             }
             else{
                 echo "<div class=\"alert alert-danger\" role=\"alert\">
@@ -63,18 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 ?>
 
 <?php
-require_once(__ROOT__. '/config.php');
 ob_start();?>
 
     <body>
     <div id="login">
-        <h3 class="text-center text-white pt-5">Sign In form</h3>
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
                         <form id="login-form" class="form" action="" method="post">
-                            <h3 class="text-center text-info">Login</h3>
+                            <h3 class="text-center text-info">Sign In</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Username:</label><br>
                                 <input type="text" name="username" id="username" class="form-control">
@@ -96,7 +94,7 @@ ob_start();?>
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
                             </div>
                             <div id="register-link" class="text-right">
-                                <a href="#" class="text-info">Register here</a>
+                                <a href="<?php echo url_for('/log.php') ?>" class="text-info">Register here</a>
                             </div>
                         </form>
                     </div>
@@ -107,4 +105,4 @@ ob_start();?>
     </body>
 
 <?php $content = ob_get_clean();
-require(__ROOT__ . '/layout.php');?>
+require(PUBLIC_PATH . '/layout.php');?>

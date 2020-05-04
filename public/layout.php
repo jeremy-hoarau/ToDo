@@ -6,16 +6,16 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href= <?php echo __ROOT__.'\public\home.php';?> >TODO</a>
+                    <a class="navbar-brand" href= <?php echo url_for('/index.php');?> >TODO</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href= <?php echo __ROOT__.'\public\home.php';?> >Home</a>
+                    <a class="nav-link" href= <?php echo url_for('/index.php');?>>Home</a>
                 </li>
             </ul>
             <ul class="navbar-nav justify-content-mr-end">
                 <li class="nav-item" style="margin-right: 0">
                     <label class="switch">
-                        <input type="checkbox" onclick="DarkMode()">
+                        <input id="DarkMode" type="checkbox" onclick="DarkMode()">
                         <span class="slider round"></span>
                     </label>
                 </li>
@@ -40,17 +40,5 @@
     <body>
         <?php echo $content ?>
     </body>
-
-    <style>
-        .navbar-nav > li{
-            margin-left:30px;
-            margin-right:30px;
-        }
-    </style>
-
-    <script>
-        function DarkMode() {
-        }
-    </script>
 
 </html>

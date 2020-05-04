@@ -1,7 +1,7 @@
 <?php
-define('__ROOT__', dirname(dirname(__FILE__)));
-require_once(__ROOT__. '/config.php');
-ob_start();?>
+    require('../private/config.php');
+    ob_start();
+?>
 
 <div class="container-fluid">
     <div class="row">
@@ -26,5 +26,5 @@ ob_start();?>
 </script>
 
 <?php $content = ob_get_clean();
-require(__ROOT__ . '/layout.php');?>
+require(PUBLIC_PATH . '/layout.php');?>
 
