@@ -2,6 +2,7 @@
 require_once('../private/config.php');
 require_once(PRIVATE_PATH . '/database.php');
 require_once(PRIVATE_PATH . '/query.php');
+$page_name = 'Log In';
 
 $username = "";
 $password = "";
@@ -13,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if ($username != '') {
         $connexion = connect_db();
-        $result = select_user_by_pseudo($connexion, $username);
-        $result_assoc = mysqli_fetch_assoc($result);
-        if (password_verify($password, $result_assoc['password'])){
+        $user = select_user_by_pseudo($connexion, $username);
+        if (password_verify($password, $user['password'])){
+            $_SESSION['id'] = $user['id'];
             header("Location: index.php");
         }
         else{
@@ -23,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                             Mauvais mot de passe!
                             </div>";
         }
-        mysqli_free_result($result);
         disconnect_db($connexion);
     }
     else{
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 ob_start();?>
 
     <body>
-    <div id="login">
+    <div id="login" style="margin-top:60px">
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">

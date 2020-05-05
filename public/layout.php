@@ -2,6 +2,11 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>
+            <?php echo (is_null($page_name) ? 'Todo Lists': 'Todo Lists - ' . $page_name);?>
+        </title>
+    </head>
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
@@ -19,7 +24,7 @@
                         <span class="slider round"></span>
                     </label>
                 </li>
-                <li id="DarkModeText" class="nav-item nav-link" style="margin-left: 0">
+                <li class="nav-item nav-link" style="margin-left: 0">
                     Dark Mode
                 </li>
                 <li class="nav-item active">
@@ -33,11 +38,13 @@
                     </svg>
                 </li>
             </ul>
-            <button type="button" class="btn btn-info my-2 my-lg-0" style="margin-left:30px; margin-right:30px;">Log In</button>
+            <a href="<?php echo url_for('/log.php') ?>">
+                <button type="button" class="btn btn-info my-2 my-lg-0" style="margin-left:30px; margin-right:30px;">Log In</button>
+            </a>
         </div>
     </nav>
 
-    <body>
+    <body onload=DarkModeSetup()>
         <?php echo $content ?>
     </body>
 

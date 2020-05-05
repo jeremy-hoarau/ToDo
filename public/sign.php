@@ -2,6 +2,7 @@
 require_once('../private/config.php');
 require_once(PRIVATE_PATH . '/database.php');
 require_once(PRIVATE_PATH . '/query.php');
+$page_name = 'Sign In';
 
 $username = "";
 $email = "";
@@ -66,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 ob_start();?>
 
     <body>
-    <div id="login">
+    <div id="login" style="margin-top: 60px">
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
@@ -94,7 +95,8 @@ ob_start();?>
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
                             </div>
                             <div id="register-link" class="text-right">
-                                <a href="<?php echo url_for('/log.php') ?>" class="text-info">Register here</a>
+                                <label style="font-size: smaller">Already have an account?</label>
+                                <a href="<?php echo url_for('/log.php') ?>" class="text-info">Log In</a>
                             </div>
                         </form>
                     </div>

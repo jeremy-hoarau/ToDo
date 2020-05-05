@@ -9,7 +9,21 @@ function select_user_table($connection){
 function select_user_by_pseudo($connection, $pseudo){
     $query = "SELECT * FROM `user` ";
     $query .= "WHERE pseudo = '".$pseudo."';";
-    return mysqli_query($connection, $query);
+    $result = mysqli_query($connection, $query);
+    confirm_result_set($result);
+    $user = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $user;
+}
+
+function select_user_by_id($connection, $id){
+    $query = "SELECT * FROM `user` ";
+    $query .= "WHERE id = '".$id."';";
+    $result = mysqli_query($connection, $query);
+    confirm_result_set($result);
+    $user = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $user;
 }
 
 function add_new_user($connection, $username, $email, $password){
@@ -19,3 +33,4 @@ function add_new_user($connection, $username, $email, $password){
     echo $query . "<br>";
     return mysqli_query($connection, $query);
 }
+
