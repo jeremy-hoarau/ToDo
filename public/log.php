@@ -2,13 +2,13 @@
 require_once('../private/config.php');
 require_once(PRIVATE_PATH . '/database.php');
 require_once(PRIVATE_PATH . '/query.php');
-$page_name = 'Log In';
+$page_name = 'Login';
 
 $username = "";
 $password = "";
 
+ob_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-
     $username = $_POST['username'] ? $_POST['username'] : '';
     $password = $_POST['password'] ? $_POST['password'] : '';
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
         else{
             echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Mauvais mot de passe!
+                            Identifiants incorrects!
                             </div>";
         }
         disconnect_db($connexion);
@@ -34,11 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 ?>
-
-<?php
-ob_start();?>
-
-    <body>
     <div id="login" style="margin-top:60px">
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
@@ -67,7 +62,6 @@ ob_start();?>
             </div>
         </div>
     </div>
-    </body>
 
 <?php $content = ob_get_clean();
 require(PUBLIC_PATH . '/layout.php');?>

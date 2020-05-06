@@ -38,8 +38,10 @@
                     </svg>
                 </li>
             </ul>
-            <a href="<?php echo url_for('/log.php') ?>">
-                <button type="button" class="btn my-2 my-lg-0 back-color-4 color-0" style="margin-left:30px; margin-right:30px;">Log In</button>
+            <a href="<?php echo isset($_SESSION['id'])? url_for('/logout.php') : url_for('/log.php') ?>">
+                <button type="button" class="btn my-2 my-lg-0 back-color-4 color-0" style="margin-left:30px; margin-right:30px;">
+                    <?php echo isset($_SESSION['id'])? "Logout" : "Login"?>
+                </button>
             </a>
         </div>
     </nav>

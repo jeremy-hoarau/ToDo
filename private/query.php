@@ -33,10 +33,3 @@ function add_new_user($connection, $username, $email, $password){
     return mysqli_query($connection, $query);
 }
 
-function update_user_dark_mode_by_id($connection, $id, $bool){
-    $query = "UPDATE `user` ";
-    $query.= "SET dark_mode = ".$bool." ";
-    $query.= "WHERE id = ".$id.";";
-    return mysqli_query($connection, $query);
-}
-

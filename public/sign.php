@@ -9,6 +9,7 @@ $email = "";
 $password = "";
 $confirmPassword = "";
 
+ob_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $username = $_POST['username'] ? $_POST['username'] : '';
@@ -63,10 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 ?>
 
-<?php
-ob_start();?>
-
-    <body>
     <div id="login" style="margin-top: 60px">
         <div class="container">
             <div id="login-row" class="row justify-content-center align-items-center">
@@ -104,7 +101,6 @@ ob_start();?>
             </div>
         </div>
     </div>
-    </body>
 
 <?php $content = ob_get_clean();
 require(PUBLIC_PATH . '/layout.php');?>
