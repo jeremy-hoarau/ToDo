@@ -1,7 +1,6 @@
 <?php
     session_start();
-    if(!isset($_SESSION['dark_mode']))
-        $_SESSION['dark_mode'] = 0;
+    
     define("PRIVATE_PATH", dirname(__FILE__));
     define("PROJECT_PATH", dirname(PRIVATE_PATH));
     define("PUBLIC_PATH", PROJECT_PATH . '/public');
@@ -19,8 +18,4 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="<?php echo url_for('/style/style_layout.css') ?>">
-
-
-<?php
-    require_once(PRIVATE_PATH . '/script/script_layout.php');
-?>
+<script src=<?php echo url_for("script/script_layout.js") ?>></script>

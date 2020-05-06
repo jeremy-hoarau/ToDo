@@ -30,7 +30,13 @@ function add_new_user($connection, $username, $email, $password){
     $password = password_hash($password, PASSWORD_DEFAULT);
     $query = "INSERT INTO `user` (pseudo, email, password) ";
     $query.= "VALUES ('". $username."', '".$email."', '".$password."');";
-    echo $query . "<br>";
+    return mysqli_query($connection, $query);
+}
+
+function update_user_dark_mode_by_id($connection, $id, $bool){
+    $query = "UPDATE `user` ";
+    $query.= "SET dark_mode = ".$bool." ";
+    $query.= "WHERE id = ".$id.";";
     return mysqli_query($connection, $query);
 }
 

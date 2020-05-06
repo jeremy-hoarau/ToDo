@@ -2,6 +2,7 @@
     require('../private/config.php');
     ob_start();
     $page_name = 'Index';
+
 ?>
 
 <div class="container-fluid">
