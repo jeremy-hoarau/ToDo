@@ -11,6 +11,7 @@
     define("WWW_ROOT", $doc_root);
 
     require_once('functions.php');
+    require_once(PRIVATE_PATH . '/database.php');
     require_once(PRIVATE_PATH.'/query.php');
 ?>
 

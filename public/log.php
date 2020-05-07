@@ -2,8 +2,6 @@
 require_once('../private/config.php');
 if(isset($_SESSION['id']))
     redirect_to("index.php");
-require_once(PRIVATE_PATH . '/database.php');
-require_once(PRIVATE_PATH . '/query.php');
 $page_name = 'Login';
 
 $username = "";
