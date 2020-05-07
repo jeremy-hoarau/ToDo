@@ -55,6 +55,9 @@ function DarkMode() {
 
 function DarkColors()
 {
+    //body-background
+    $(".body-back-color").css("background-color", "#585f82");
+
     //color
     $(".color-0").css("color", "#202D4C");
     $(".color-1").css("color", "#35405A");
@@ -69,10 +72,20 @@ function DarkColors()
     $(".back-color-3").css("background-color", "#69738B");
     $(".back-color-4").css("background-color", "#8F96A6");
 
+    //border-color
+    $(".border-color-0").css("border-color", "#202D4C");
+    $(".border-color-1").css("border-color", "#35405A");
+    $(".border-color-2").css("border-color", "#4C5873");
+    $(".border-color-3").css("border-color", "#69738B");
+    $(".border-color-4").css("border-color", "#8F96A6");
+
 }
 
 function LightColors()
 {
+    //body-background
+    $(".body-back-color").css("background-color", "#DBDBDB");
+
     //color
     $(".color-0").css("color", "#8F96A6");
     $(".color-1").css("color", "#69738B");
@@ -87,4 +100,10 @@ function LightColors()
     $(".back-color-3").css("background-color", "#35405A");
     $(".back-color-4").css("background-color", "#202D4C");
 
+    //border-color
+    $(".border-color-0").css("border-color", "#8F96A6");
+    $(".border-color-1").css("border-color", "#69738B");
+    $(".border-color-2").css("border-color", "#4C5873");
+    $(".border-color-3").css("border-color", "#35405A");
+    $(".border-color-4").css("border-color", "#202D4C");
 }

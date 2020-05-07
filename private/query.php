@@ -35,7 +35,6 @@ function select_lists_by_user_id($connection, $id)
     $query .= "WHERE creator_id = '".$id."';";
     $result = mysqli_query($connection, $query);
     confirm_result_set($result);
-    mysqli_free_result($result);
     return $result;
 }
 

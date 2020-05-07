@@ -46,7 +46,7 @@
         </div>
     </nav>
 
-    <body onload=DarkModeSetup()>
+    <body class="body-back-color" onload=DarkModeSetup()>
         <?php echo $content ?>
     </body>
 
