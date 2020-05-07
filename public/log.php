@@ -1,5 +1,7 @@
 <?php
 require_once('../private/config.php');
+if(isset($_SESSION['id']))
+    redirect_to("index.php");
 require_once(PRIVATE_PATH . '/database.php');
 require_once(PRIVATE_PATH . '/query.php');
 $page_name = 'Login';
@@ -8,7 +10,7 @@ $username = "";
 $password = "";
 
 ob_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+if (is_post_request()){
     $username = $_POST['username'] ? $_POST['username'] : '';
     $password = $_POST['password'] ? $_POST['password'] : '';
 
@@ -17,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user = select_user_by_pseudo($connexion, $username);
         if (password_verify($password, $user['password'])){
             $_SESSION['id'] = $user['id'];
-            header("Location: index.php");
+            redirect_to("index.php");
         }
         else{
             echo "<div class=\"alert alert-danger\" role=\"alert\">
@@ -43,14 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                             <h3 class="text-center text-info">Login</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Username:</label><br>
-                                <input type="text" name="username" id="username" class="form-control">
+                                <input type="text" name="username" id="username" class="form-control"  value="<?php echo (isset($_POST['username']))? $_POST['username'] : "";?>">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
-                                <input type="text" name="password" id="password" class="form-control">
+                                <input type="password" name="password" id="password" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
                             </div>
                             <div id="register-link" class="text-right">

@@ -10,7 +10,7 @@ $password = "";
 $confirmPassword = "";
 
 ob_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+if (is_post_request()){
 
     $username = $_POST['username'] ? $_POST['username'] : '';
     $email = $_POST['email'] ? $_POST['email'] : '';
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $result = add_new_user($connexion, $username, $email, $password);
                 mysqli_free_result($result);
                 disconnect_db($connexion);
-                header("Location: index.php");
+                redirect_to("index.php");
             }
             else{
                 echo "<div class=\"alert alert-danger\" role=\"alert\">
@@ -73,19 +73,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                             <h3 class="text-center text-info">Sign In</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Username:</label><br>
-                                <input type="text" name="username" id="username" class="form-control">
+                                <input type="text" name="username" id="username" class="form-control" value="<?php echo (isset($_POST['username']))? $_POST['username'] : "";?>">
                             </div>
                             <div class="form-group">
                                 <label for="email" class="text-info">Email:</label><br>
-                                <input type="email" name="email" id="email" class="form-control">
+                                <input type="email" name="email" id="email" class="form-control" value="<?php echo (isset($_POST['email']))? $_POST['email'] : "";?>">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
-                                <input type="text" name="password" id="password" class="form-control">
+                                <input type="password" name="password" id="password" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Confirm Password:</label><br>
-                                <input type="text" name="confirmPassword" id="confirmPassword" class="form-control">
+                                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
