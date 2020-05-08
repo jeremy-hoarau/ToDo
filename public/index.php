@@ -15,7 +15,10 @@
         ?>!
     </div>
 </div>
-<div class="card border-color-0 back-color-0" style=" text-align: center; margin-top:50px">
+<div  style="margin-top:50px; margin-left: 20px;">
+    <button class="btn color-0 back-color-4 border-color-4" style="width: 150px; height: 50px">+ New List</button>
+</div>
+<div class="card border-color-0 back-color-0" style=" text-align: center; margin-top:20px">
     <div class="card-header back-color-1">
         <ul class="nav nav-tabs card-header-tabs">
             <li class="nav-item ">
@@ -26,7 +29,7 @@
             </li>
         </ul>
     </div>
-    <div class="card-body back-color-0 ">
+    <div class="card-body back-color-0" style="min-height: 500px;">
         <div id="MyLists" class="container-fluid">
             <?php
             if(isset($_SESSION['id']))
@@ -41,10 +44,10 @@
                                         </div>
                                         <div class="container-fluid" style="height: 140px; margin-bottom: 10px">
                                             <div class="row align-items-center">
-                                                <div class="col-10 color-4 back-color-0" style="text-align: justify; height: 120px; margin:20px; overflow: auto">
+                                                <div class="col color-4 back-color-0" style="text-align: justify; height: 120px; margin:20px; overflow: auto">
                                                     '. htmlspecialchars($list['description']) .'
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-2">
                                                     <div class="row justify-content-md-center" style="margin:25px">
                                                         <button type="button" class="btn btn-info">Manage</button>
                                                     </div>
@@ -62,7 +65,7 @@
             }
             ?>
         </div>
-        <div id="SharedLists" class="container-fluid" style="display: none">
+        <div id="SharedLists" class="container-fluid" style="display: none; min-height: 500px;">
             <?php
             if(isset($_SESSION['id']))
             {
@@ -70,16 +73,16 @@
                 $lists = select_shared_lists_by_user_id($con, $_SESSION['id']);
                 while($list = mysqli_fetch_array($lists))
                 {
-                    $todo_content = '<div class="card back-color-1" style="margin-bottom: 50px;">
+                    $todo_content = '<div class="card back-color-1" style="margin-bottom: 50px;" >
                                         <div class="card-header back-color-3 color-0" style="font-size: x-large">
                                             '. htmlspecialchars($list['name']).'
                                         </div>
                                         <div class="container-fluid" style="height: 140px; margin-bottom: 10px">
                                             <div class="row align-items-center">
-                                                <div class="col-10 color-4 back-color-0" style="text-align: justify; height: 120px; margin:20px; overflow: auto">
+                                                <div class="col color-4 back-color-0" style="text-align: justify; height: 120px; margin:20px; overflow: auto">
                                                     '. htmlspecialchars($list['description']) .'
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-2">
                                                     <div class="row justify-content-md-center" style="margin:25px">
                                                         <button type="button" class="btn btn-info">Manage</button>
                                                     </div>
