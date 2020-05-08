@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="container-fluid" style="height: 140px; margin-bottom: 10px">
                                             <div class="row align-items-center">
-                                                <div class="col-10 color-4" style="text-align: justify; height: 120px; margin-top:20px; margin-bottom: 20px; overflow: auto">
+                                                <div class="col-10 color-4 back-color-0" style="text-align: justify; height: 120px; margin:20px; overflow: auto">
                                                     '. htmlspecialchars($list['description']) .'
                                                 </div>
                                                 <div class="col">
