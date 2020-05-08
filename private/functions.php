@@ -64,8 +64,6 @@
     {
         $.post( "delete_todo.php", { id: id},
             function(data, status) {
-                console.log("deleted");
-                console.log(status);
                 if(status === 'success')
                     $('#List-' + id).css("display", "none");
         });
