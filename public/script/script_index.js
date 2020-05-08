@@ -18,3 +18,4 @@ function TabToggleClasses()
     $(".tab-button").toggleClass("back-color-0 border-color-0 color-4 border-color-4 color-4 back-color-1");
     DarkMode();
 }
+
