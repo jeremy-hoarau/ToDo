@@ -46,3 +46,28 @@ function add_new_user($connection, $username, $email, $password){
     $query.= "VALUES ('". $username."', '".$email."', '".$password."');";
     return mysqli_query($connection, $query);
 }
+
+function select_friends($connection, $user_id, $accepted){
+    $query = "SELECT * FROM `user_has_user` ";
+    $query .= "WHERE user_id = ".$user_id." AND accepted = ".$accepted.";";
+    return mysqli_query($connection, $query);
+}
+
+function update_friend_status($connection, $user_id, $friend_id, $accepted){
+    $query = "UPDATE `user_has_user` ";
+    $query .= "SET accepted = ".$accepted. " ";
+    $query .= "WHERE user_id = ".$user_id." AND friend_id = ". $friend_id. ";";
+    return mysqli_query($connection, $query);
+}
+
+function delete_friend($connection, $user_id, $friend_id){
+    $query = "DELETE FROM `user_has_user` ";
+    $query .= "WHERE user_id = ". $user_id ." AND friend_id = ". $friend_id . ";";
+    return mysqli_query($connection, $query);
+}
+
+function add_new_friend($connection, $user_id, $friend_id){
+    $query = "INSERT INTO `user_has_user` (user_id, friend_id, accepted) ";
+    $query .= "VALUES ('". $user_id."', '".$friend_id."', '1');";
+    return mysqli_query($connection, $query);
+}

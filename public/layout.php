@@ -28,7 +28,7 @@
                     Dark Mode
                 </li>
                 <li>
-                    <a class="nav-link color-4" href="#">Friends</a>
+                    <a class="nav-link color-4" href= <?php echo url_for('/friends.php');?> >Friends</a>
                 </li>
                 <li class="navbar-item color-4">
                     <svg class="bi bi-bell" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-top:8px">

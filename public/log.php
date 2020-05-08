@@ -1,37 +1,37 @@
 <?php
-require_once('../private/config.php');
-if(isset($_SESSION['id']))
-    redirect_to("index.php");
-$page_name = 'Login';
+    require_once('../private/config.php');
+    if(isset($_SESSION['id']))
+        redirect_to("index.php");
+    $page_name = 'Login';
 
-$username = "";
-$password = "";
+    $username = "";
+    $password = "";
 
-ob_start();
-if (is_post_request()){
-    $username = $_POST['username'] ? $_POST['username'] : '';
-    $password = $_POST['password'] ? $_POST['password'] : '';
+    ob_start();
+    if (is_post_request()){
+        $username = $_POST['username'] ? $_POST['username'] : '';
+        $password = $_POST['password'] ? $_POST['password'] : '';
 
-    if ($username != '') {
-        $connexion = connect_db();
-        $user = select_user_by_pseudo($connexion, $username);
-        if (password_verify($password, $user['password'])){
-            $_SESSION['id'] = $user['id'];
-            redirect_to("index.php");
+        if ($username != '') {
+            $connexion = connect_db();
+            $user = select_user_by_pseudo($connexion, $username);
+            if (password_verify($password, $user['password'])){
+                $_SESSION['id'] = $user['id'];
+                redirect_to("index.php");
+            }
+            else{
+                echo "<div class=\"alert alert-danger\" role=\"alert\">
+                                Identifiants incorrects!
+                                </div>";
+            }
+            disconnect_db($connexion);
         }
         else{
             echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Identifiants incorrects!
-                            </div>";
+                                Il faut remplir tous les champs!
+                                </div>";
         }
-        disconnect_db($connexion);
     }
-    else{
-        echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Il faut remplir tous les champs!
-                            </div>";
-    }
-}
 
 ?>
     <div id="login" style="margin-top:60px">
