@@ -18,7 +18,6 @@ function select_user_by_pseudo($connection, $pseudo){
 }
 
 function select_user_by_id($connection, $id){
-    $id = db_escape($connection, $id);
     $query = "SELECT * FROM `user` ";
     $query .= "WHERE id = '".$id."';";
     $result = mysqli_query($connection, $query);
@@ -28,9 +27,28 @@ function select_user_by_id($connection, $id){
     return $user;
 }
 
+function select_tasks_by_list_by_id($connection, $id)
+{
+    $query = "SELECT * FROM `task` ";
+    $query .= "WHERE todo_id = '".$id."';";
+    $result = mysqli_query($connection, $query);
+    confirm_result_set($result);
+    return $result;
+}
+
+function select_list_by_id($connection, $id)
+{
+    $query = "SELECT * FROM `todo` ";
+    $query .= "WHERE id = '".$id."';";
+    $result = mysqli_query($connection, $query);
+    confirm_result_set($result);
+    $list = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $list;
+}
+
 function select_lists_by_user_id($connection, $id)
 {
-    $id = db_escape($connection, $id);
     $query = "SELECT * FROM `todo` ";
     $query .= "WHERE creator_id = '".$id."';";
     $result = mysqli_query($connection, $query);
@@ -40,15 +58,27 @@ function select_lists_by_user_id($connection, $id)
 
 function select_shared_lists_by_user_id($connection, $id)
 {
-    $id = db_escape($connection, $id);
     $query = "SELECT * FROM `todo` ";
     $query .= "WHERE id IN ";
     $query .= "(SELECT todo_id FROM `user_has_todo` ";
     $query .= "WHERE user_id = '".$id."'";
-    $query .= "AND authorised = '1');";
+    $query .= "AND authorised = '1' ";
+    $query .= "OR authorised = '2');";
     $result = mysqli_query($connection, $query);
     confirm_result_set($result);
     return $result;
+}
+
+function user_has_list_by_ids($connection, $user_id, $list_id)
+{
+    $query = "SELECT * FROM `todo` ";
+    $query .= "WHERE id = ".$list_id." ";
+    $query .= "AND creator_id = ".$user_id.";";
+    $result = mysqli_query($connection, $query);
+    confirm_result_set($result);
+    $has_list = mysqli_fetch_array($result)? true : false;
+    mysqli_free_result($result);
+    return $has_list;
 }
 
 function add_new_user($connection, $username, $email, $password){
@@ -58,4 +88,11 @@ function add_new_user($connection, $username, $email, $password){
     $query = "INSERT INTO `user` (pseudo, email, password) ";
     $query.= "VALUES ('". $username."', '".$email."', '".$password."');";
     return mysqli_query($connection, $query);
+}
+
+function delete_list_by_id($connection, $id){
+    $query = "DELETE FROM `todo` ";
+    $query .= "WHERE id = ".$id.";";
+    mysqli_query($connection, $query);
+    return mysqli_affected_rows($connection);
 }
