@@ -35,10 +35,26 @@
                 $lists = select_lists_by_user_id($con, $_SESSION['id']);
                 while($list = mysqli_fetch_array($lists))
                 {
-                    $todo_content = '<div class="card back-color-1" style="margin-bottom: 50px;">';
-                    $todo_content .= '<div class="card-header back-color-3 color-0" style="font-size: x-large">'. htmlspecialchars($list['name']). '</div>';
-                    $todo_content .= '<p class="card-text color-4" style="margin-top:20px; margin-bottom: 20px">' . htmlspecialchars($list['description']) . '</p>';
-                    $todo_content .= '</div>';
+                    $todo_content = '<div class="card back-color-1" style="margin-bottom: 50px;">
+                                        <div class="card-header back-color-3 color-0" style="font-size: x-large">
+                                            '. htmlspecialchars($list['name']).'
+                                        </div>
+                                        <div class="container-fluid" style="height: 140px; margin-bottom: 10px">
+                                            <div class="row align-items-center">
+                                                <div class="col-10 color-4 back-color-0" style="text-align: justify; height: 120px; margin:20px; overflow: auto">
+                                                    '. htmlspecialchars($list['description']) .'
+                                                </div>
+                                                <div class="col">
+                                                    <div class="row justify-content-md-center" style="margin:25px">
+                                                        <button type="button" class="btn btn-info">Manage</button>
+                                                    </div>
+                                                    <div class="row justify-content-md-center" style="margin:25px">
+                                                        <button type="button" class="btn btn-danger">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>';
                     echo $todo_content;
                 }
                 mysqli_free_result($lists);
@@ -47,7 +63,39 @@
             ?>
         </div>
         <div id="SharedLists" class="container-fluid" style="display: none">
-            shared!
+            <?php
+            if(isset($_SESSION['id']))
+            {
+                $con = connect_db();
+                $lists = select_shared_lists_by_user_id($con, $_SESSION['id']);
+                while($list = mysqli_fetch_array($lists))
+                {
+                    $todo_content = '<div class="card back-color-1" style="margin-bottom: 50px;">
+                                        <div class="card-header back-color-3 color-0" style="font-size: x-large">
+                                            '. htmlspecialchars($list['name']).'
+                                        </div>
+                                        <div class="container-fluid" style="height: 140px; margin-bottom: 10px">
+                                            <div class="row align-items-center">
+                                                <div class="col-10 color-4" style="text-align: justify; height: 120px; margin-top:20px; margin-bottom: 20px; overflow: auto">
+                                                    '. htmlspecialchars($list['description']) .'
+                                                </div>
+                                                <div class="col">
+                                                    <div class="row justify-content-md-center" style="margin:25px">
+                                                        <button type="button" class="btn btn-info">Manage</button>
+                                                    </div>
+                                                    <div class="row justify-content-md-center" style="margin:25px">
+                                                        <button type="button" class="btn btn-danger">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>';
+                    echo $todo_content;
+                }
+                mysqli_free_result($lists);
+                disconnect_db($con);
+            }
+            ?>
         </div>
     </div>
 </div>
