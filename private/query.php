@@ -186,14 +186,22 @@ function add_new_list($connection, $name, $description, $creator_id){
 
 function get_user_list_access($connection, $user_id, $list_id){
     $query = "SELECT * FROM `user_has_todo` ";
-    $query .= "WHERE todo_id = '".$list_id."' AND user_id = '".$user_id."';";
+    $query .= "WHERE todo_id = '" . $list_id . "' AND user_id = '" . $user_id . "';";
     $result = mysqli_query($connection, $query);
     $access = mysqli_fetch_assoc($result);
-    if($access == null)
-    {
+    if ($access == null) {
         mysqli_free_result($result);
         return 0;
     }
     mysqli_free_result($result);
     return $access['authorised'];
+}
+
+function create_new_task($connection,$task_todo, $task_name, $task_state, $task_description){
+    $todo = db_escape($connection, $task_todo);
+    $name = db_escape($connection, $task_name);
+    $description = db_escape($connection, $task_description);
+    $query = "INSERT INTO `task` (todo_id, name, state, description ) ";
+    $query .= "VALUES ('". $todo."', '".$name."', '".$task_state."', '".$description."');";
+    return mysqli_query($connection, $query);
 }
