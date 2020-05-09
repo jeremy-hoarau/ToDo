@@ -223,7 +223,23 @@ function user_has_task($connection, $task_id, $user_id, $list_id){
     mysqli_free_result($result);
     return true;
 }
+function update_task($connection, $task_id, $task_name, $task_state, $task_description){
+    $id = db_escape($connection, $task_id);
+    $name = db_escape($connection, $task_name);
+    $description = db_escape($connection, $task_description);
+    $query = "UPDATE `task` ";
+    $query .= "SET name = '" . $name . "', state = '" . $task_state . "', description = '" . $description . "' ";
+    $query .= "WHERE id = " . $id . " ;";
+    return mysqli_query($connection, $query);
+}
 
+function select_task_by_id($connection, $task_id)
+{
+    $id = db_escape($connection, $task_id);
+    $query = "SELECT * FROM `task` ";
+    $query .= "WHERE id = " . $id . " ;";
+    return mysqli_query($connection, $query);
+}
 function delete_task_by_id($connection, $task_id){
     $query = "DELETE FROM `task` ";
     $query .= "WHERE id = '".$task_id."';";

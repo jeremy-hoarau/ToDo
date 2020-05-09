@@ -39,9 +39,11 @@ if (is_post_request()){
         if ($freeUsername && $freeEmail){
             if($password == $confirmPassword){
                 $result = add_new_user($connexion, $username, $email, $password);
-                mysqli_free_result($result);
                 disconnect_db($connexion);
-                redirect_to("index.php");
+                $message = "Pouette pouette";
+                echo $email;
+                mail($email, 'Pouette', $message);
+                //redirect_to("index.php");
             }
             else{
                 echo "<div class=\"alert alert-danger\" role=\"alert\">
