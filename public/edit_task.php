@@ -49,14 +49,14 @@ if (is_post_request()){
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
                         <form id="login-form" class="form" action="" method="post">
-                            <h3 class="text-center ">Edit a task</h3>
+                            <h3 class="text-center color-4">Edit a task</h3>
                             <div class="form-group">
-                                <label for="name">Task name:</label><br>
-                                <input type="text" name="name" id="name" class="form-control" value="<?php echo $task['name'];?>">
+                                <label for="name" class="color-4">Task name:</label><br>
+                                <input type="text" name="name" id="name" class="form-control back-color-0 border-color-0"" value="<?php echo $task['name'];?>">
                             </div>
                             <div class="form-group">
-                                <label for="state">Select a state for the task:</label>
-                                <select class="form-control" name="state" id="state">
+                                <label for="state" class="color-4">Select a state for the task:</label>
+                                <select class="form-control back-color-0 border-color-0"" name="state" id="state">
                                     <?php
                                         if ($task['state'] == 0){
                                             echo "<option>In progress</option>
@@ -71,11 +71,11 @@ if (is_post_request()){
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" name="description" id="description" rows="4" style="text-align: left"><?php echo $task['description'];?></textarea>
+                                <label for="description" class="color-4">Description</label>
+                                <textarea class="form-control back-color-0 border-color-0"" name="description" id="description" rows="4" style="text-align: left"><?php echo $task['description'];?></textarea>
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                                <input type="submit" name="submit" class="btn btn-info btn-md back-color-4 border-color-4 color-0" value="submit">
                             </div>
                         </form>
                     </div>

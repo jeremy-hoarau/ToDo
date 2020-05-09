@@ -47,9 +47,9 @@ $todo_content .= "<form action=\"\" method=\"post\" class=\"list-group list-grou
 $todo_content .= "<h3 class=\"list-group-item back-color-4 color-0\" style=\"text-align: center;\">Find a user</h3>";
 $todo_content .= "<div class=\"form-group\">";
 $todo_content .= "<label for=\"username\" class=\"color-4\">Enter Username and email:</label><br>";
-$todo_content .= "<input type=\"text\" name=\"friend\" id=\"friend\" class=\"form-control color-1\">";
+$todo_content .= "<input type=\"text\" name=\"friend\" id=\"friend\" class=\"form-control back-color-4 border-color-4\">";
 $todo_content .= "</div>";
-$todo_content .= "<button type=\"submit\" class=\"btn btn-primary\">Submit</button>";
+$todo_content .= "<button type=\"submit\" class=\"btn btn-primary back-color-2 border-color-2 color-4\">Submit</button>";
 $todo_content .= "</form></div></div>";
 echo $todo_content;
 
