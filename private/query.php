@@ -18,9 +18,19 @@ function select_user_by_pseudo($connection, $pseudo){
 }
 
 function select_user_by_id($connection, $id){
-    $id = db_escape($connection, $id);
     $query = "SELECT * FROM `user` ";
     $query .= "WHERE id = '".$id."';";
+    $result = mysqli_query($connection, $query);
+    confirm_result_set($result);
+    $user = mysqli_fetch_assoc($result);
+    mysqli_free_result($result);
+    return $user;
+}
+
+function select_user_by_email($connection, $email){
+    $email = db_escape($connection, $email);
+    $query = "SELECT * FROM `user` ";
+    $query .= "WHERE email = '".$email."';";
     $result = mysqli_query($connection, $query);
     confirm_result_set($result);
     $user = mysqli_fetch_assoc($result);
@@ -99,28 +109,51 @@ function delete_list_by_id($connection, $id){
     return mysqli_affected_rows($connection);
 }
 
+function are_friends_or_pending($connection, $user_id, $friend_id){
+    $query = "SELECT * FROM `user_has_user` ";
+    $query .= "WHERE (user_id = ".$user_id." AND friend_id = ".$friend_id.") ";
+    $query .= "OR (user_id = ".$friend_id." AND friend_id = ".$user_id.");";
+    $result = mysqli_query($connection, $query);
+    $are_friends = mysqli_fetch_array($result);
+    if($are_friends == null)
+        return false;
+    return true;
+}
 
 function select_friends($connection, $user_id, $accepted){
     $query = "SELECT * FROM `user_has_user` ";
-    $query .= "WHERE user_id = ".$user_id." AND accepted = ".$accepted.";";
+    $query .= "WHERE friend_id = ".$user_id." AND accepted = ".$accepted.";";
+    return mysqli_query($connection, $query);
+}
+
+function select_pending_friends($connection, $user_id){
+    $query = "SELECT * FROM `user_has_user` ";
+    $query .= "WHERE user_id = ".$user_id." AND accepted = '0';";
     return mysqli_query($connection, $query);
 }
 
 function update_friend_status($connection, $user_id, $friend_id, $accepted){
     $query = "UPDATE `user_has_user` ";
     $query .= "SET accepted = ".$accepted. " ";
-    $query .= "WHERE user_id = ".$user_id." AND friend_id = ". $friend_id. ";";
-    return mysqli_query($connection, $query);
+    $query .= "WHERE user_id = ".$friend_id." AND friend_id = ". $user_id. ";";
+    $query1 = "INSERT INTO `user_has_user` ";
+    $query1 .= "(user_id, friend_id, accepted) ";
+    $query1 .= "VALUES ('".$user_id."', '".$friend_id."', '".$accepted."');";
+    mysqli_query($connection, $query);
+    return mysqli_query($connection, $query1);
 }
 
 function delete_friend($connection, $user_id, $friend_id){
     $query = "DELETE FROM `user_has_user` ";
-    $query .= "WHERE user_id = ". $user_id ." AND friend_id = ". $friend_id . ";";
-    return mysqli_query($connection, $query);
+    $query .= "WHERE user_id = '". $user_id ."' AND friend_id = '". $friend_id . "';";
+    $query1 = "DELETE FROM `user_has_user` ";
+    $query1 .= "WHERE user_id = '". $friend_id ."' AND friend_id = '". $user_id . "';";
+    mysqli_query($connection, $query);
+    return mysqli_query($connection, $query1);
 }
 
 function add_new_friend($connection, $user_id, $friend_id){
     $query = "INSERT INTO `user_has_user` (user_id, friend_id, accepted) ";
-    $query .= "VALUES ('". $user_id."', '".$friend_id."', '1');";
+    $query .= "VALUES ('". $user_id."', '".$friend_id."', '0');";
     return mysqli_query($connection, $query);
 }
