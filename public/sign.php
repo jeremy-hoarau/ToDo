@@ -24,13 +24,13 @@ if (is_post_request()){
                 if ($user['pseudo'] == $username){
                     $freeUsername = false;
                     echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Le pseudo est déjà pris!
+                            The pseudo is already taken!
                             </div>";
                 }
                 if ($user['email'] == $email){
                     $freeEmail = false;
                     echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Le mail est déjà pris!
+                            The mail is already taken!
                             </div>";
                 }
             }
@@ -45,7 +45,7 @@ if (is_post_request()){
             }
             else{
                 echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Les mots de passe ne sont pas identiques!
+                            Passwords don't match!
                             </div>";
 
             }
@@ -54,7 +54,7 @@ if (is_post_request()){
     }
     else{
         echo "<div class=\"alert alert-danger\" role=\"alert\">
-                            Il faut remplir tous les champs!
+                            Fields cannot be empty!
                             </div>";
     }
 

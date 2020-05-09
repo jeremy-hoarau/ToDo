@@ -31,7 +31,7 @@ while ($row = mysqli_fetch_assoc($friendRequest)) {
     $todo_content .= "<div class=\"list-group-item back-color-1 color-4 \">";
     $todo_content .= "<div class=\"row justify-content-center\">";
     $todo_content .= "<p class=\"col\">".htmlspecialchars($user['pseudo'])."</p>";
-    $todo_content .= "<button type='submit' value = 'Accept' class='btn btn-success' name =".$user['pseudo']." >Accept</button>";
+    $todo_content .= "<button type='submit' value = 'Accept' class='btn btn-success' name =".htmlspecialchars($user['pseudo'])." >Accept</button>";
     $todo_content .= "</div></div>";
     $todo_content .= "</form>";
 }
@@ -67,7 +67,7 @@ if (mysqli_num_rows($friends)!= 0) {
         $todo_content .= "<form action=\"\" method=\"post\">";
         $todo_content .= "<div class=\"list-group-item back-color-1 color-4 \">";
         $todo_content .= "<div class=\"row justify-content-center\">";
-        $todo_content .= "<p class=\"col\">" . $user['pseudo'] . "</p>";
+        $todo_content .= "<p class=\"col\">" . htmlspecialchars($user['pseudo']) . "</p>";
         $todo_content .= "</div></div>";
         $todo_content .= "</form>";
     }
@@ -89,8 +89,8 @@ if (mysqli_num_rows($friends)!= 0) {
         $todo_content .= "<form action=\"\" method=\"post\">";
         $todo_content .= "<div class=\"list-group-item back-color-1 color-4 \">";
         $todo_content .= "<div class=\"row justify-content-center\">";
-        $todo_content .= "<p class=\"col\">" . $user['pseudo'] . "</p>";
-        $todo_content .= "<button type=\"submit\" value = \"Delete\" class=\"col-1 btn btn-danger\" name=\"".$user['pseudo']."\">Delete</button>";
+        $todo_content .= "<p class=\"col\">" . htmlspecialchars($user['pseudo']) . "</p>";
+        $todo_content .= "<button type=\"submit\" value = \"Delete\" class=\"col-1 btn btn-danger\" name=\"".htmlspecialchars($user['pseudo'])."\">Delete</button>";
         $todo_content .= "</div></div>";
         $todo_content .= "</form>";
     }

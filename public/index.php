@@ -15,8 +15,8 @@
         ?>!
     </div>
 </div>
-<div  style="margin-top:50px; margin-left: 20px;">
-    <button class="btn color-0 back-color-4 border-color-4" style="width: 150px; height: 50px">+ New List</button>
+<div style="margin-top:50px; margin-left: 20px;">
+    <a class="btn color-0 back-color-4 border-color-4" href="<?php echo url_for('/create_todo.php'); ?>" style="width: 150px; height: 50px;"><p style="margin-top:5px">+ New List</p></a>
 </div>
 <div class="card border-color-0 back-color-0" style=" text-align: center; margin-top:20px">
     <div class="card-header back-color-1">

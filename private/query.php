@@ -175,3 +175,11 @@ function add_new_friend($connection, $user_id, $friend_id){
     $query .= "VALUES ('". $user_id."', '".$friend_id."', '0');";
     return mysqli_query($connection, $query);
 }
+
+function add_new_list($connection, $name, $description, $creator_id){
+    $name = db_escape($connection, $name);
+    $description = db_escape($connection, $description);
+    $query = "INSERT INTO `todo` (name, creator_id, description) ";
+    $query .= "VALUES ('". $name."', '".$creator_id."', '".$description."');";
+    return mysqli_query($connection, $query);
+}

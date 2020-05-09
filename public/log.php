@@ -21,14 +21,14 @@
             }
             else{
                 echo "<div class=\"alert alert-danger\" role=\"alert\">
-                                Identifiants incorrects!
+                                Wrong Credentials!
                                 </div>";
             }
             disconnect_db($connexion);
         }
         else{
             echo "<div class=\"alert alert-danger\" role=\"alert\">
-                                Il faut remplir tous les champs!
+                                The Fields cannot be empty!
                                 </div>";
         }
     }
