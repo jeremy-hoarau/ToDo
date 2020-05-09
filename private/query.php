@@ -206,19 +206,27 @@ function create_new_task($connection,$task_todo, $task_name, $task_state, $task_
     return mysqli_query($connection, $query);
 }
 
-function update_task($connection, $task_id, $task_name, $task_state, $task_description){
-    $id = db_escape($connection, $task_id);
-    $name = db_escape($connection, $task_name);
-    $description = db_escape($connection, $task_description);
-    $query = "UPDATE `task` ";
-    $query .= "SET name = '" . $name . "', state = '" . $task_state . "', description = '" . $description . "' ";
-    $query .= "WHERE id = " . $id . " ;";
-    return mysqli_query($connection, $query);
+function user_has_task($connection, $task_id, $user_id, $list_id){
+    $access = get_user_list_access($connection, $user_id, $list_id);
+    if(($access == null || $access == 0) && !user_has_list_by_ids($connection, $user_id, $list_id))
+        return false;
+    $query = "SELECT * FROM `task` ";
+    $query .= "WHERE todo_id = '".$list_id."' ";
+    $query .= "AND id = '". $task_id ."';";
+    $result = mysqli_query($connection, $query);
+    $has_task = mysqli_fetch_array($result);
+    if($has_task == null)
+    {
+        mysqli_free_result($result);
+        return false;
+    }
+    mysqli_free_result($result);
+    return true;
 }
 
-function select_task_by_id($connection, $task_id){
-    $id = db_escape($connection, $task_id);
-    $query = "SELECT * FROM `task` ";
-    $query .= "WHERE id = ". $id . " ;";
-    return mysqli_query($connection, $query);
+function delete_task_by_id($connection, $task_id){
+    $query = "DELETE FROM `task` ";
+    $query .= "WHERE id = '".$task_id."';";
+    mysqli_query($connection, $query);
+    return mysqli_affected_rows($connection);
 }

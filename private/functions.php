@@ -58,7 +58,7 @@
         }
     }
 
-function display_tasks($con, $tasks, $list_access)
+function display_tasks($con, $list_id, $list_access)
 {
     $task_content = "";
     for($i = 0; $i<2; $i++)
@@ -103,7 +103,9 @@ function display_tasks($con, $tasks, $list_access)
                                         <a href='". url_for('/edit_task.php?task_id=') . $task['id'] ."&list_id=" .$_GET['id']. "' class='btn btn-info'>Edit</a>
                                     </div>
                                     <div class='row justify-content-md-center' style='margin:25px'>
-                                        <button type='button' class='btn btn-danger' onclick='DeleteTask(".$task['id'].")'>Delete</button>
+                                        <button type='button' class='btn btn-danger' onclick='DeleteTask(";
+                                            $task_content .= $task['id'].",".$list_id;
+                                            $task_content .= ")'>Delete</button>
                                     </div>
                                 </div>";
                                     } $task_content .=
@@ -122,14 +124,20 @@ function display_tasks($con, $tasks, $list_access)
 <script>
     function DeleteList(id)
     {
-        $.post( "delete_todo.php", { id: id},
+        $.post("delete_todo.php", { id: id},
             function(data, status) {
                 if(status === 'success')
                     $('#List-' + id).css("display", "none");
         });
     }
 
-    function DeleteTask(id) {
-
+    function DeleteTask(task_id, list_id) {
+        $.post("delete_task.php", { task_id: task_id, list_id: list_id},
+            function(data, status) {
+                if(status === 'success')
+                    $('.task-' + task_id).remove();
+                else
+                    alert("error when deleting task");
+            });
     }
 </script>
