@@ -36,7 +36,7 @@ if(is_post_request())
                         </div>
                         <div class="form-group">
                             <label for="description" class="color-4">Description:</label><br>
-                            <textarea name="description" id="description" class="form-control back-color-0 border-color-0" style="min-height: 150px"></textarea>
+                            <textarea name="description" id="description" class="form-control back-color-0 border-color-0" style="min-height: 150px"><?php echo (isset($_POST['description']))? $_POST['description'] : "";?></textarea>
                         </div>
                         <div class="form-group">
                             <input type="submit" name="submit" class="btn btn-info btn-md back-color-4 border-color-4 color-0" value="submit">
