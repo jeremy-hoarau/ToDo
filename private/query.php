@@ -109,6 +109,20 @@ function delete_list_by_id($connection, $id){
     return mysqli_affected_rows($connection);
 }
 
+function has_friend_request($connection, $id){
+    $query = "SELECT * FROM `user_has_user` ";
+    $query .= "WHERE friend_id = ".$id." AND accepted = 0;";
+    $result = mysqli_query($connection, $query);
+    $has_pending = mysqli_fetch_array($result);
+    if($has_pending == null)
+    {
+        mysqli_free_result($result);
+        return false;
+    }
+    mysqli_free_result($result);
+    return true;
+}
+
 function are_friends_or_pending($connection, $user_id, $friend_id){
     $query = "SELECT * FROM `user_has_user` ";
     $query .= "WHERE (user_id = ".$user_id." AND friend_id = ".$friend_id.") ";
@@ -116,7 +130,11 @@ function are_friends_or_pending($connection, $user_id, $friend_id){
     $result = mysqli_query($connection, $query);
     $are_friends = mysqli_fetch_array($result);
     if($are_friends == null)
+    {
+        mysqli_free_result($result);
         return false;
+    }
+    mysqli_free_result($result);
     return true;
 }
 

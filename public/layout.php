@@ -28,7 +28,10 @@
                     Dark Mode
                 </li>
                 <li>
-                    <a class="nav-link color-4" href= <?php echo url_for('/friends.php');?> >Friends</a>
+                    <a class="nav-link color-4" href= <?php echo url_for('/friends.php');?> >
+                        <svg id="NotifFriends" style="position: absolute; top:15px; display:none">
+                            <circle cx="63" cy="3" r="2.5" stroke="black" stroke-width="0.5" fill="red"/>
+                        </svg>Friends</a>
                 </li>
                 <li class="navbar-item color-4">
                     <svg class="bi bi-bell" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-top:8px">
@@ -46,8 +49,25 @@
         </div>
     </nav>
 
-    <body class="body-back-color" onload=DarkModeSetup()>
+    <body class="body-back-color" onload="DarkModeSetup();
+        <?php
+        if(isset($_SESSION['id']))
+        {
+            $con = connect_db();
+            if(has_friend_request($con, $_SESSION['id']))
+                echo "NotifFriends();";
+            /*if(has_list_request())
+                Notif();*/
+            disconnect_db($con);
+        }
+    ?>">
         <?php echo $content ?>
     </body>
 
 </html>
+
+<script>
+    function NotifFriends(){
+        $("#NotifFriends").toggle();
+    }
+</script>
