@@ -206,6 +206,17 @@ function create_new_task($connection,$task_todo, $task_name, $task_state, $task_
     return mysqli_query($connection, $query);
 }
 
+function update_task($connection, $task_id, $task_name, $task_state, $task_description)
+{
+    $id = db_escape($connection, $task_id);
+    $name = db_escape($connection, $task_name);
+    $description = db_escape($connection, $task_description);
+    $query = "UPDATE `task` ";
+    $query .= "SET name = '" . $name . "', state = '" . $task_state . "', description = '" . $description . "' ";
+    $query .= "WHERE id = " . $id . " ;";
+    return mysqli_query($connection, $query);
+}
+
 function user_has_task($connection, $task_id, $user_id, $list_id){
     $access = get_user_list_access($connection, $user_id, $list_id);
     if(($access == null || $access == 0) && !user_has_list_by_ids($connection, $user_id, $list_id))
@@ -223,15 +234,6 @@ function user_has_task($connection, $task_id, $user_id, $list_id){
     mysqli_free_result($result);
     return true;
 }
-function update_task($connection, $task_id, $task_name, $task_state, $task_description){
-    $id = db_escape($connection, $task_id);
-    $name = db_escape($connection, $task_name);
-    $description = db_escape($connection, $task_description);
-    $query = "UPDATE `task` ";
-    $query .= "SET name = '" . $name . "', state = '" . $task_state . "', description = '" . $description . "' ";
-    $query .= "WHERE id = " . $id . " ;";
-    return mysqli_query($connection, $query);
-}
 
 function select_task_by_id($connection, $task_id)
 {
@@ -240,9 +242,17 @@ function select_task_by_id($connection, $task_id)
     $query .= "WHERE id = " . $id . " ;";
     return mysqli_query($connection, $query);
 }
+
 function delete_task_by_id($connection, $task_id){
     $query = "DELETE FROM `task` ";
     $query .= "WHERE id = '".$task_id."';";
     mysqli_query($connection, $query);
     return mysqli_affected_rows($connection);
+}
+
+function select_done_tasks_by_list_id($con, $list_id){
+    $query = "SELECT * FROM `task` ";
+    $query .= "WHERE todo_id = '".$list_id."' ";
+    $query .= "AND state = '1';";
+    return mysqli_query($con, $query);
 }

@@ -43,11 +43,12 @@
                             Done:
                         </div>
                     </div>
-                    <?php if($list_access != 1){ echo "
+                    <?php if($list_access != 1){ $button_content = "
                     <div style='position: absolute; right: 25px'>
-                        <button type='button' class='btn btn-danger' onclick='DeleteAllDoneTasks()'>Delete All Done</button>
+                        <button type='button' class='btn btn-danger' onclick='DeleteAllDoneTasks(\"";
+                        $button_content .= $_GET['id'] . "\")'>Delete All Done</button>
                     </div>
-                    ";} ?>
+                    ";echo $button_content;} ?>
                 </div>
             </div>
             <div class="row">
@@ -64,12 +65,104 @@
 ?>
 
 <script>
-    function DeleteAllDoneTasks()
+    function DeleteAllDoneTasks(list_id)
     {
+        $.ajax({
+            type: "GET",
+            url: "get_done_tasks.php?list_id="+list_id,
+            contentType: "application/json",
+            dataType: "json",
+            success: function(response) {
+                response.forEach(function(item, index){
+                    DeleteTask(item, list_id);
+                })
+            }
+        });
+    }
 
+    function DeleteList(id)
+    {
+        $.post("delete_todo.php", { id: id},
+            function(data, status) {
+                if(status === 'success')
+                    $('#List-' + id).css("display", "none");
+            });
+    }
+
+    function DeleteTask(task_id, list_id) {
+        $.post("delete_task.php", { task_id: task_id, list_id: list_id},
+            function(data, status) {
+                if(status === 'success')
+                    $('.task-' + task_id).remove();
+                else
+                    alert("error when deleting task");
+            });
     }
 </script>
 
+<!-- ######################################################################################################
 
 <?php $content = ob_get_clean();
-require(PUBLIC_PATH . '/layout.php'); ?>
+require(PUBLIC_PATH . '/layout.php');
+
+function display_tasks($con, $list_id, $list_access)
+{
+    $task_content = "";
+    for($i = 0; $i<2; $i++)
+    {
+        $task_content.= "<div class='col border-color-4' style='"
+        ;if($i == 0)
+        $task_content .= "border-right:1px solid;"."'>";
+    else
+        $task_content .= "border-left:1px solid;"."'>";
+        $tasks = select_tasks_by_list_by_id($con, $_GET['id']);
+        while($task = mysqli_fetch_assoc($tasks)) {
+            $task_content.=
+                "<div id=".$task['id']." class='row task".$i." task-".$task['id'];$task_content.="' style='margin:25px;";
+            if($task['state'] == (1-$i)){$task_content.="display:none";}
+            $task_content.="'>
+                    <div class='card border-color-0 back-color-0' style='min-width:100%;'>
+                        <div class='card-header back-color-3 color-0' style='text-align: center; font-size: x-large'>
+                            <div class='container'>
+                                <div class='row align-items-center'>
+                                    "; if($list_access == 2){$task_content .=
+                "<div class='col-1'>
+                                        <div class='custom-control custom-checkbox'>
+                                            <input type='checkbox' class='custom-control-input' id='Task-".$i.$task['id']."'>
+                                            <label class='custom-control-label' for='Task-".$i.$task['id']."'></label>
+                                        </div>
+                                    </div>";
+            } $task_content .=
+                "<div class='col'>
+                                        ".htmlspecialchars($task['name'])."
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='container back-color-1 color-4'>
+                            <div class='row align-items-center'>
+                                <div class='col' style='height: 120px; margin:20px; overflow: auto; text-align: justify'>
+                                    ".htmlspecialchars($task['description'])."
+                                </div>
+                                "; if($list_access == 2){$task_content .=
+                "<div class='col-2'>
+                                    <div class='row justify-content-md-center' style='margin:25px'>
+                                        <a href='". url_for('/edit_task.php?task_id=') . $task['id'] ."&list_id=" .$_GET['id']. "' class='btn btn-info'>Edit</a>
+                                    </div>
+                                    <div class='row justify-content-md-center' style='margin:25px'>
+                                        <button type='button' class='btn btn-danger' onclick='DeleteTask(";
+                $task_content .= $task['id'].",".$list_id;
+                $task_content .= ")'>Delete</button>
+                                    </div>
+                                </div>";
+            } $task_content .=
+                "</div>
+                        </div>
+                    </div>
+                </div>";
+        }
+        $task_content .="</div>";
+        mysqli_free_result($tasks);
+    }
+    echo $task_content;
+}?>

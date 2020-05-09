@@ -11,6 +11,7 @@ function changeTab(tab)
         $("#SharedLists").css("display", "none");
     }
     TabToggleClasses();
+
 }
 
 function TabToggleClasses()

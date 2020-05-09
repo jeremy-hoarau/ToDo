@@ -1,4 +1,5 @@
 <?php
+require(PRIVATE_PATH.'/config_css_js.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
