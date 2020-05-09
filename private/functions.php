@@ -100,7 +100,7 @@ function display_tasks($con, $tasks, $list_access)
                                 "; if($list_access == 2){$task_content .=
                                 "<div class='col-2'>
                                     <div class='row justify-content-md-center' style='margin:25px'>
-                                        <a href='". url_for('/task.php?id=') . $task['id'] ."' class='btn btn-info'>Edit</a>
+                                        <a href='". url_for('/task.php?task_id=') . $task['id'] ."&list_id=" .$_GET['id']. "' class='btn btn-info'>Edit</a>
                                     </div>
                                     <div class='row justify-content-md-center' style='margin:25px'>
                                         <button type='button' class='btn btn-danger' onclick='DeleteTask(".$task['id'].")'>Delete</button>

@@ -43,9 +43,11 @@
                             Done:
                         </div>
                     </div>
+                    <?php if($list_access != 1){ echo "
                     <div style='position: absolute; right: 25px'>
                         <button type='button' class='btn btn-danger' onclick='DeleteAllDoneTasks()'>Delete All Done</button>
                     </div>
+                    ";} ?>
                 </div>
             </div>
             <div class="row">
