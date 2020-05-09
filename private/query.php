@@ -183,3 +183,12 @@ function add_new_list($connection, $name, $description, $creator_id){
     $query .= "VALUES ('". $name."', '".$creator_id."', '".$description."');";
     return mysqli_query($connection, $query);
 }
+
+function create_new_task($connection,$task_todo, $task_name, $task_state, $task_description){
+    $todo = db_escape($connection, $task_todo);
+    $name = db_escape($connection, $task_name);
+    $description = db_escape($connection, $task_description);
+    $query = "INSERT INTO `task` (todo_id, name, state, description ) ";
+    $query .= "VALUES ('". $todo."', '".$name."', '".$task_state."', '".$description."');";
+    return mysqli_query($connection, $query);
+}
