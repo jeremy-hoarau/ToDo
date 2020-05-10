@@ -19,9 +19,10 @@
     $nb_notif = 0;
     $con = connect_db();
     $result = get_todo_invitations($con, $_SESSION['id']);
+
     if($result != null)
     {
-        $notif_content = "<div class='container-fluid' style='margin-top: 30px'>
+        $notif_content = "<div id='NotifContainer' class='container-fluid' style='margin-top: 30px'>
                             <h3 class='color-4' style='text-align: center;'>Notifications:</h3>";
         while($invit = mysqli_fetch_assoc($result))
         {

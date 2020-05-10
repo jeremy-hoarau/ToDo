@@ -32,8 +32,10 @@ function RefuseNotif(todo_id)
 {
     $.post("refuse_todo_access.php", {todo_id: todo_id},
         function(data, status) {
-            if(status === 'success')
+            if(status === 'success') {
                 $('#Notif-' + todo_id).remove();
+                CheckHideNotif();
+            }
         });
 }
 
@@ -41,7 +43,16 @@ function AcceptNotif(todo_id)
 {
     $.post("accept_todo_access.php", {todo_id: todo_id},
         function(data, status) {
-            if(status === 'success')
+            if(status === 'success'){
                 $('#Notif-' + todo_id).remove();
+                CheckHideNotif();
+            }
         });
+}
+
+function CheckHideNotif() {
+    if(document.getElementById("NotifContainer").childNodes.length === 2){
+        $('#Notif').toggle();
+        $('#NotifContainer').remove();
+    }
 }
