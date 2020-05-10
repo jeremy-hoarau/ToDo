@@ -276,7 +276,6 @@ function select_user_has_todo_by_todo_id($connection, $todo_id){
     $query = "SELECT * FROM `user_has_todo` ";
     $query .= "WHERE todo_id = " . $id . " ;";
     return mysqli_query($connection, $query);
-
 }
 
 function update_user_has_to_do_state($connection, $row_id, $state){
