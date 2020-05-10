@@ -15,7 +15,6 @@ ob_start();
 if(is_get_request()){
     if ($task_id != '' && $task_todo != ''){
         $connexion = connect_db();
-
         $result = select_task_by_id($connexion, $task_id);
         $task = mysqli_fetch_assoc($result);
         mysqli_free_result($result);

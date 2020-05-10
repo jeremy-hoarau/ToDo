@@ -1,6 +1,5 @@
 <?php
 require_once('../private/config.php');
-require_once('../private/functions_tampons.php');
 
 if(!isset($_SESSION['id']))
     redirect_to("log.php");

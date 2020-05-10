@@ -28,7 +28,7 @@
         <div style="margin-top:50px; margin-left: 20px;">
             <?php if($list_access == 2){ echo '
                 <a class="btn color-0 back-color-4 border-color-4" href="' . url_for('create_task.php?id='.$_GET['id']) . '" style="width: 150px; height: 50px;"><p style="margin-top:5px">+ New Task</p></a>
-                <a class="btn color-0 back-color-4 border-color-4" href="' . url_for('list_access?list_id='.$_GET['id']) . '" style="width: 150px; height: 50px; position:absolute; right: 20px;"><p style="margin-top:5px">Manage Access</p></a>
+                <a class="btn color-0 back-color-4 border-color-4" href="' . url_for('list_access.php?list_id='.$_GET['id']) . '" style="width: 150px; height: 50px; position:absolute; right: 20px;"><p style="margin-top:5px">Manage Access</p></a>
             ';}?>
         </div>
         <div class="container-fluid back-color-0"  style="margin-top: 20px; text-align: center; min-height:600px;">

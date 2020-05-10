@@ -264,11 +264,53 @@ function select_in_progress_tasks_by_list_id($con, $list_id){
     return mysqli_query($con, $query);
 }
 
-function update_task_state($connection, $task_id, $state)
-{
+function update_task_state($connection, $task_id, $state){
     $query = "UPDATE `task` ";
     $query .= "SET state = ".$state. " ";
     $query .= "WHERE id = ".$task_id.";";
     mysqli_query($connection, $query);
     return mysqli_affected_rows($connection);
+}
+
+function select_user_has_todo_by_todo_id($connection, $todo_id){
+    $id = db_escape($connection, $todo_id);
+    $query = "SELECT * FROM `user_has_todo` ";
+    $query .= "WHERE todo_id = " . $id . " ;";
+    return mysqli_query($connection, $query);
+
+}
+
+function update_user_has_to_do_state($connection, $row_id, $state){
+    $id = db_escape($connection, $row_id);
+    $query = "UPDATE `user_has_todo` ";
+    $query .= "SET authorised = ". $state ." ";
+    $query .= "WHERE id = ". $id . " ;";
+    return mysqli_query($connection, $query);
+}
+
+function delete_user_has_todo_by_id($connection, $row_id){
+    $id = db_escape($connection, $row_id);
+    $querry = "DELETE FROM `user_has_todo` ";
+    $querry .= "WHERE id = ". $id . " ;";
+    return mysqli_query($connection, $querry);
+}
+
+function user_has_already_todo_access($connection, $user_id, $todo_id){
+    $user = db_escape($connection, $user_id);
+    $todo = db_escape($connection, $todo_id);
+    $query = "SELECT * FROM `user_has_todo` ";
+    $query .= "WHERE user_id = ". $user. " AND todo_id = ". $todo. " ; ";
+    return mysqli_query($connection, $query);
+}
+
+function create_new_user_has_to_do($connection, $user_id, $todo_id, $state){
+    $user = db_escape($connection, $user_id);
+    $todo = db_escape($connection, $todo_id);
+    $result= user_has_already_todo_access($connection, $user, $todo);
+    if (mysqli_num_rows($result)!= 0){
+        return false;
+    }
+    $query = "INSERT INTO `user_has_todo` (todo_id, user_id, authorised) ";
+    $query .= "VALUES ('". $todo."', '".$user."', '".$state."');";
+    return mysqli_query($connection, $query);
 }
