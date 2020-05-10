@@ -39,6 +39,11 @@
                             In Progress:
                         </div>
                     </div>
+                    <div style='position: absolute; left: 25px'>
+                        <button id="ButtonCol-0" type='button' class='btn back-color-0 border-color-4 color-4' onclick='ToggleInProgress()'>
+                            hide tasks
+                        </button>
+                    </div>
                     <?php if($list_access != 1){ $button_content = "
                     <div style='position: absolute; right: 25px'>
                         <button type='button' class='btn btn-success' onclick='CheckOffAllTasks(\"";
@@ -51,6 +56,11 @@
                         <div class="badge badge-pill badge-secondary color-0 back-color-4" style="font-size: large; width:150px; height: 30px">
                             Done:
                         </div>
+                    </div>
+                    <div style='position: absolute; left: 25px'>
+                        <button id="ButtonCol-1" type='button' class='btn back-color-0 border-color-4 color-4' onclick='ToggleDone()'>
+                            hide tasks
+                        </button>
                     </div>
                     <?php if($list_access != 1){ $button_content = "
                     <div style='position: absolute; right: 25px'>
@@ -85,11 +95,8 @@ function display_tasks($con, $list_id, $list_access)
     $task_content = "";
     for($i = 0; $i<2; $i++)
     {
-        $task_content.= "<div class='col border-color-4' style='"
-        ;if($i == 0)
-        $task_content .= "border-right:1px solid;"."'>";
-    else
-        $task_content .= "border-left:1px solid;"."'>";
+        $task_content.= "<div class='col border-color-4'";
+        $task_content .= "border-right:1px solid;"."'><div id='Col-" . $i . "'>";
         $tasks = select_tasks_by_list_by_id($con, $_GET['id']);
         while($task = mysqli_fetch_assoc($tasks)) {
             $task_content.=
@@ -139,7 +146,7 @@ function display_tasks($con, $list_id, $list_access)
                     </div>
                 </div>";
         }
-        $task_content .="</div>";
+        $task_content .="</div></div>";
         mysqli_free_result($tasks);
     }
     echo $task_content;

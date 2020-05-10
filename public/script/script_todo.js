@@ -57,3 +57,21 @@ function ChangeTaskState(task_id, list_id)
                 alert("error when modifying task state");
         });
 }
+
+function ToggleInProgress()
+{
+    if($("#ButtonCol-0").html() === 'show tasks')
+        $("#ButtonCol-0").html('hide tasks');
+    else
+        $("#ButtonCol-0").html('show tasks');
+    $("#Col-0").toggle();
+}
+
+function ToggleDone()
+{
+    if($("#ButtonCol-1").html() === 'show tasks')
+        $("#ButtonCol-1").html('hide tasks');
+    else
+        $("#ButtonCol-1").html('show tasks');
+    $("#Col-1").toggle();
+}
