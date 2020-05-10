@@ -1,5 +1,6 @@
 <?php
 require_once('../private/config.php');
+require_once('../private/phpmailer/mail_function.php');
 $page_name = 'List access';
 $con = connect_db();
 if(!isset($_GET['list_id']) || !isset($_SESSION['id']) || !user_has_list_by_ids($con, $_SESSION['id'], $_GET['list_id']))
@@ -87,7 +88,6 @@ if ($list_id != ''){
     disconnect_db($connexion);
 }
 if (is_post_request()){
-    var_dump($_POST);
     $connexion = connect_db();
     foreach($_POST as $key=>$value){
         if($key == 'modify'){
@@ -104,9 +104,15 @@ if (is_post_request()){
         }
         elseif ($key == 'full'){
             $result = create_new_user_has_to_do($connexion, $_POST['full'], $list_id, 2);
+            $user = select_user_by_id($connexion, $_POST['full']);
+            $message = "Todo list with full access";
+            send_mail($user['email'], $message);
         }
         elseif ($key == 'read'){
             $result = create_new_user_has_to_do($connexion, $_POST['read'], $list_id, 1);
+            $user = select_user_by_id($connexion, $_POST['read']);
+            $message = "Todo list with read only access";
+            send_mail($user['email'], $message);
         }
 
     }

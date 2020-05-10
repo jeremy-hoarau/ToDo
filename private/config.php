@@ -3,6 +3,9 @@
     define("PROJECT_PATH", dirname(PRIVATE_PATH));
     define("PUBLIC_PATH", PROJECT_PATH . '/public');
 
+    define('GMailUSER', 'todolist.2phpd@gmail.com');
+    define('GMailPWD', 'PouettePouette1234');
+
     session_save_path(PRIVATE_PATH. '/sessions');
     session_start();
 
