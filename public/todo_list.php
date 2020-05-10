@@ -26,9 +26,11 @@
             </div>
         </div>
         <div style="margin-top:50px; margin-left: 20px;">
-            <a class="btn color-0 back-color-4 border-color-4" href="<?php echo url_for('/create_task.php?id='.$_GET['id']); ?>" style="width: 150px; height: 50px;"><p style="margin-top:5px">+ New Task</p></a>
+            <?php if($list_access == 2){ echo '
+                <a class="btn color-0 back-color-4 border-color-4" href="' . url_for('create_task.php?id='.$_GET['id']) . '"style="width: 150px; height: 50px;"><p style="margin-top:5px">+ New Task</p></a>
+            ';}?>
         </div>
-        <div class="container-fluid back-color-0"  style="margin-top: 20px; text-align: center; min-height:500px;">
+        <div class="container-fluid back-color-0"  style="margin-top: 20px; text-align: center; min-height:600px;">
             <div class="row">
                 <div class="col"  style="margin: 30px;">
                     <div class="text-center">
@@ -64,41 +66,7 @@
     }
 ?>
 
-<script>
-    function DeleteAllDoneTasks(list_id)
-    {
-        $.ajax({
-            type: "GET",
-            url: "get_done_tasks.php?list_id="+list_id,
-            contentType: "application/json",
-            dataType: "json",
-            success: function(response) {
-                response.forEach(function(item, index){
-                    DeleteTask(item, list_id);
-                })
-            }
-        });
-    }
-
-    function DeleteList(id)
-    {
-        $.post("delete_todo.php", { id: id},
-            function(data, status) {
-                if(status === 'success')
-                    $('#List-' + id).css("display", "none");
-            });
-    }
-
-    function DeleteTask(task_id, list_id) {
-        $.post("delete_task.php", { task_id: task_id, list_id: list_id},
-            function(data, status) {
-                if(status === 'success')
-                    $('.task-' + task_id).remove();
-                else
-                    alert("error when deleting task");
-            });
-    }
-</script>
+<script src='script/script_todo.js'></script>
 
 <!-- ######################################################################################################
 
@@ -118,25 +86,28 @@ function display_tasks($con, $list_id, $list_access)
         $tasks = select_tasks_by_list_by_id($con, $_GET['id']);
         while($task = mysqli_fetch_assoc($tasks)) {
             $task_content.=
-                "<div id=".$task['id']." class='row task".$i." task-".$task['id'];$task_content.="' style='margin:25px;";
+                "<div class='row task".$i." task-".$task['id'];$task_content.="' style='margin:25px;";
             if($task['state'] == (1-$i)){$task_content.="display:none";}
             $task_content.="'>
                     <div class='card border-color-0 back-color-0' style='min-width:100%;'>
                         <div class='card-header back-color-3 color-0' style='text-align: center; font-size: x-large'>
                             <div class='container'>
                                 <div class='row align-items-center'>
-                                    "; if($list_access == 2){$task_content .=
-                "<div class='col-1'>
-                                        <div class='custom-control custom-checkbox'>
-                                            <input type='checkbox' class='custom-control-input' id='Task-".$i.$task['id']."'>
-                                            <label class='custom-control-label' for='Task-".$i.$task['id']."'></label>
-                                        </div>
-                                    </div>";
-            } $task_content .=
-                "<div class='col'>
+                                    "; if($i == 1 && $list_access == 2) {
+                                        $task_content .=
+                                            "<button class='btn btn-warning' onclick='ChangeTaskState(";$task_content .=
+                                                $task['id'] . ", " . $_GET['id'] . ")'><- Move to: \"In Progress\" </button>";
+                                    }
+                                    $task_content .= "<div class='col'>
                                         ".htmlspecialchars($task['name'])."
                                     </div>
-                                </div>
+                                    "; if($i == 0 && $list_access == 2) {
+                                        $task_content .=
+                                            "<button class='btn btn-success' onclick='ChangeTaskState(";$task_content .=
+                                                $task['id'] . ", " . $_GET['id'] . ")'>Move to: \"Done\" -></button>";
+                                    }
+                                $task_content .=
+                                "</div>
                             </div>
                         </div>
                         <div class='container back-color-1 color-4'>

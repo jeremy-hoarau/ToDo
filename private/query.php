@@ -256,3 +256,12 @@ function select_done_tasks_by_list_id($con, $list_id){
     $query .= "AND state = '1';";
     return mysqli_query($con, $query);
 }
+
+function update_task_state($connection, $task_id, $state)
+{
+    $query = "UPDATE `task` ";
+    $query .= "SET state = ".$state. " ";
+    $query .= "WHERE id = ".$task_id.";";
+    mysqli_query($connection, $query);
+    return mysqli_affected_rows($connection);
+}
