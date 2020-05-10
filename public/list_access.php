@@ -1,32 +1,44 @@
 <?php
 require_once('../private/config.php');
 $page_name = 'List access';
-// il n'y a que le créateur qui peut arriver sur cette page
+$con = connect_db();
+if(!isset($_GET['list_id']) || !isset($_SESSION['id']) || !user_has_list_by_ids($con, $_SESSION['id'], $_GET['list_id']))
+{
+    redirect_to('index.php');
+    disconnect_db($con);
+}
 $list_id = $_GET['list_id'] ? $_GET['list_id'] : '';
 ob_start();
 
-$todo_content = "<div class=\"text-center\">";
+$todo_content = "
+    <!-- Previous Page Button -->
+    <a href='" . url_for('/todo_list.php?id=') . $list_id ."'>
+        <button class=\"btn back-color-0 border-color-0 color-4\" style=\"position: absolute; margin: 20px\">
+            <svg class=\"bi bi-arrow-left\" width=\"2em\" height=\"1.5em\" viewBox=\"0 0 16 16\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">
+                <path fill-rule=\"evenodd\" d=\"M5.854 4.646a.5.5 0 010 .708L3.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z\" clip-rule=\"evenodd\"/>
+                <path fill-rule=\"evenodd\" d=\"M2.5 8a.5.5 0 01.5-.5h10.5a.5.5 0 010 1H3a.5.5 0 01-.5-.5z\" clip-rule=\"evenodd\"/>
+            </svg>
+        </button>
+    </a>";
+$todo_content .= "<div class=\"text-center\">";
 $todo_content .= "<div class=\"badge badge-pill badge-secondary color-4 back-color-0\" style=\"font-size: xx-large; margin-top: 2%; margin-bottom: 2%;\">Manage access todo list</div>";
 $todo_content .= "</div>";
-$todo_content .= "<div style=\"margin: 2%;\">";
-$todo_content .= "<a class=\"btn color-0 back-color-4 border-color-4\" href=\"". url_for("todo_list.php?id=".$list_id) ."\" style=\"width: 150px; height: 50px;\"><p style=\"margin-top:5px\">Back to todo list</p></a>";
-$todo_content .= "</div>";
 $todo_content .= "<div class=\"container-fluid\">";
-$todo_content .= "<div class=\"row back-color-0\">";
+$todo_content .= "<div class=\"row back-color-0\" style='min-height: 600px;'>";
 $todo_content .= "<div class=\"col-6 back-color-0\">";
 $todo_content .= "<div class=\"list-group list-group-flush\" style=\"margin: 1%;\">";
-$todo_content .= "<h3 class=\"list-group-item back-color-4 color-0\" style=\"text-align: center;\">Friend who have access</h3>";
+$todo_content .= "<h3 class=\"list-group-item back-color-4 color-0\" style=\"text-align: center; margin-top: 25px\">Friend who have access</h3>";
 echo $todo_content;
 
 if ($list_id != ''){
     $connexion = connect_db();
     $access = select_user_has_todo_by_todo_id($connexion, $list_id);
-    $todo_content = "<div class=\"container list-group-item align-items-center back-color-0\">";
+    $todo_content = "<div class=\"container list-group-item  back-color-0\">";
     while ($row = mysqli_fetch_assoc($access)){
         $friend = select_user_by_id($connexion, $row['user_id']);
-        $todo_content .= "<form action=\"\" method=\"post\" class=\"row justify-content-between back-color-1\" style='padding: 1%;'>";
+        $todo_content .= "<form action=\"\" method=\"post\" class=\"row justify-content-between back-color-1\" style='padding:1%'>";
         $todo_content .="<div class=\"col-2 color-4\">".htmlspecialchars($friend['pseudo'])."</div>";
-        $todo_content .="<select class=\" col-2 form-control back-color-1 border-color-4 color-4\" name=\"state\" id=\"state\" >";
+        $todo_content .="<select class=\"col-3 form-control back-color-1 border-color-4 color-4\" name=\"state\" id=\"state\" >";
         if ($row['authorised'] == 1){
             $todo_content .="<option class='color-4'>Read only</option>";
             $todo_content .="<option class='color-4'>Full access</option></select>";
@@ -44,7 +56,7 @@ if ($list_id != ''){
 
     // ----------------------------------------------------------------------------------------------------------
 
-    $todo_content = "<div class=\"col-6 back-color-0\" >";
+    $todo_content = "<div class=\"col-6 back-color-0\" style='margin-top: 25px'>";
     $todo_content .= "<div class=\"list-group list-group-flush\" style=\"margin: 1%;\">";
     $todo_content .= "<h3 class=\"list-group-item back-color-4 color-0\" style=\"text-align: center;\">Give access to friend</h3>";
 
