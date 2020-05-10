@@ -15,6 +15,38 @@
         ?>!
     </div>
 </div>
+<?php
+    $nb_notif = 0;
+    $con = connect_db();
+    $result = get_todo_invitations($con, $_SESSION['id']);
+    if($result != null)
+    {
+        $notif_content = "<div class='container-fluid' style='margin-top: 30px'>
+                            <h3 class='color-4' style='text-align: center;'>Notifications:</h3>";
+        while($invit = mysqli_fetch_assoc($result))
+        {
+            $nb_notif++;
+            $list = select_list_by_id($con, $invit['todo_id']);
+            $notif_content .=
+            "<div id='Notif-". $invit['todo_id'] ."' class='row back-color-0 color-4' style='margin: 10px; padding:20px'>
+                <div class='col'>
+                    Do you want to join the Todo List: ". $list['name'] ."
+                </div>
+                <a style='margin-right: 30px' onclick='RefuseNotif(". $invit['todo_id'] .")'>
+                    <button class='col btn btn-danger' style='margin-right:50px '>No</button>
+                </a>
+                <a style='margin-right: 30px' onclick='AcceptNotif(". $invit['todo_id'] .")'>
+                    <button class='col btn btn-Success' style='margin-right: 50px'>Yes</button>
+                </a>
+            </div>";
+        }
+        mysqli_free_result($result);
+        $notif_content .= "</div>";
+    }
+    disconnect_db($con);
+    if($nb_notif > 0)
+        echo $notif_content;
+?>
 <div style="margin-top:50px; margin-left: 20px;">
     <a class="btn color-0 back-color-4 border-color-4" href="<?php echo url_for('/create_todo.php'); ?>" style="width: 150px; height: 50px;"><p style="margin-top:5px">+ New List</p></a>
 </div>

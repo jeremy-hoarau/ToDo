@@ -66,9 +66,7 @@ function select_shared_lists_by_user_id($connection, $id)
     $query = "SELECT * FROM `todo` ";
     $query .= "WHERE id IN ";
     $query .= "(SELECT todo_id FROM `user_has_todo` ";
-    $query .= "WHERE user_id = '".$id."'";
-    $query .= "AND authorised = '1' ";
-    $query .= "OR authorised = '2');";
+    $query .= "WHERE user_id = '".$id."' AND (authorised = '1' OR authorised = '2') AND accepted = '1');";
     return mysqli_query($connection, $query);
 }
 
@@ -176,7 +174,7 @@ function add_new_list($connection, $name, $description, $creator_id){
 
 function get_user_list_access($connection, $user_id, $list_id){
     $query = "SELECT * FROM `user_has_todo` ";
-    $query .= "WHERE todo_id = '" . $list_id . "' AND user_id = '" . $user_id . "';";
+    $query .= "WHERE todo_id = '" . $list_id . "' AND user_id = '" . $user_id . "' AND accepted = '1';";
     $result = mysqli_query($connection, $query);
     $access = mysqli_fetch_assoc($result);
     if ($access == null) {
@@ -281,9 +279,36 @@ function select_user_has_todo_by_todo_id($connection, $todo_id){
 function update_user_has_to_do_state($connection, $row_id, $state){
     $id = db_escape($connection, $row_id);
     $query = "UPDATE `user_has_todo` ";
-    $query .= "SET authorised = ". $state ." ";
-    $query .= "WHERE id = ". $id . " ;";
+    if($state == 0)
+    {
+        $query .= "SET (authorised, accepted) = (". $state .", '0') ";
+        $query .= "WHERE id = ". $id . " ;";
+    }
+    else
+    {
+        $query .= "SET authorised = ". $state ." ";
+        $query .= "WHERE id = ". $id . " ;";
+    }
     return mysqli_query($connection, $query);
+}
+
+function user_accept_todo($connection, $todo_id, $user_id){
+    $query = "UPDATE `user_has_todo` ";
+    $query .= "SET accepted = '1' ";
+    $query .= "WHERE todo_id = '". $todo_id . "' AND user_id = '".$user_id."';";
+    mysqli_query($connection, $query);
+    if(mysqli_affected_rows($connection) >= 1)
+        return true;
+    return false;
+}
+
+function user_refuse_todo($connection, $todo_id, $user_id){
+    $query = "DELETE FROM `user_has_todo` ";
+    $query .= "WHERE todo_id = '". $todo_id . "' AND user_id = '".$user_id."';";
+    mysqli_query($connection, $query);
+    if(mysqli_affected_rows($connection) >= 1)
+        return true;
+    return false;
 }
 
 function delete_user_has_todo_by_id($connection, $row_id){
@@ -308,7 +333,27 @@ function create_new_user_has_to_do($connection, $user_id, $todo_id, $state){
     if (mysqli_num_rows($result)!= 0){
         return false;
     }
-    $query = "INSERT INTO `user_has_todo` (todo_id, user_id, authorised) ";
-    $query .= "VALUES ('". $todo."', '".$user."', '".$state."');";
+    $query = "INSERT INTO `user_has_todo` (todo_id, user_id, authorised, accepted) ";
+    $query .= "VALUES ('". $todo."', '".$user."', '".$state."', '0');";
+    return mysqli_query($connection, $query);
+}
+
+function has_list_request($connection, $user_id){
+    $query = "SELECT * FROM `user_has_todo` ";
+    $query .= "WHERE user_id = '".$user_id."' AND accepted = '0';";
+    $result = mysqli_query($connection, $query);
+    $has_request = mysqli_fetch_array($result);
+    if($has_request == null)
+    {
+        mysqli_free_result($result);
+        return false;
+    }
+    mysqli_free_result($result);
+    return true;
+}
+
+function get_todo_invitations($connection, $user_id){
+    $query = "SELECT * FROM `user_has_todo` ";
+    $query .= "WHERE user_id = '".$user_id."' AND accepted = '0';";
     return mysqli_query($connection, $query);
 }

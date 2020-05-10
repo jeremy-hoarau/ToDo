@@ -1,5 +1,15 @@
 <?php
 require(PRIVATE_PATH.'/config_css_js.php');
+
+echo "<script>
+    function Notif(){
+        $(\"#Notif\").toggle();
+    }
+
+    function NotifFriends(){
+        $(\"#NotifFriends\").toggle();
+    }
+</script>"
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,18 +67,12 @@ require(PRIVATE_PATH.'/config_css_js.php');
             $con = connect_db();
             if(has_friend_request($con, $_SESSION['id']))
                 echo "NotifFriends();";
-            /*if(has_list_request())
-                Notif();*/
+            if(has_list_request($con, $_SESSION['id']))
+                echo "Notif();";
             disconnect_db($con);
         }
     ?>">
-        <?php echo $content ?>
+    <?php echo $content ?>
     </body>
 
 </html>
-
-<script>
-    function NotifFriends(){
-        $("#NotifFriends").toggle();
-    }
-</script>

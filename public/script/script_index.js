@@ -11,7 +11,6 @@ function changeTab(tab)
         $("#SharedLists").css("display", "none");
     }
     TabToggleClasses();
-
 }
 
 function TabToggleClasses()
@@ -26,5 +25,23 @@ function DeleteList(id)
         function(data, status) {
             if(status === 'success')
                 $('#List-' + id).css("display", "none");
+        });
+}
+
+function RefuseNotif(todo_id)
+{
+    $.post("refuse_todo_access.php", {todo_id: todo_id},
+        function(data, status) {
+            if(status === 'success')
+                $('#Notif-' + todo_id).remove();
+        });
+}
+
+function AcceptNotif(todo_id)
+{
+    $.post("accept_todo_access.php", {todo_id: todo_id},
+        function(data, status) {
+            if(status === 'success')
+                $('#Notif-' + todo_id).remove();
         });
 }
