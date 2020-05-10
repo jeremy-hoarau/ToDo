@@ -1,3 +1,18 @@
+function CheckOffAllTasks(list_id)
+{
+    $.ajax({
+        type: "GET",
+        url: "get_in_progress_tasks.php?list_id="+list_id,
+        contentType: "application/json",
+        dataType: "json",
+        success: function(response) {
+            response.forEach(function(item, index){
+                ChangeTaskState(item, list_id);
+            })
+        }
+    });
+}
+
 function DeleteAllDoneTasks(list_id)
 {
     $.ajax({

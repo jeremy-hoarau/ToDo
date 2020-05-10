@@ -27,7 +27,8 @@
         </div>
         <div style="margin-top:50px; margin-left: 20px;">
             <?php if($list_access == 2){ echo '
-                <a class="btn color-0 back-color-4 border-color-4" href="' . url_for('create_task.php?id='.$_GET['id']) . '"style="width: 150px; height: 50px;"><p style="margin-top:5px">+ New Task</p></a>
+                <a class="btn color-0 back-color-4 border-color-4" href="' . url_for('create_task.php?id='.$_GET['id']) . '" style="width: 150px; height: 50px;"><p style="margin-top:5px">+ New Task</p></a>
+                <a class="btn color-0 back-color-4 border-color-4" href="' . url_for('list_access?list_id='.$_GET['id']) . '" style="width: 150px; height: 50px; position:absolute; right: 20px;"><p style="margin-top:5px">Manage Access</p></a>
             ';}?>
         </div>
         <div class="container-fluid back-color-0"  style="margin-top: 20px; text-align: center; min-height:600px;">
@@ -38,6 +39,12 @@
                             In Progress:
                         </div>
                     </div>
+                    <?php if($list_access != 1){ $button_content = "
+                    <div style='position: absolute; right: 25px'>
+                        <button type='button' class='btn btn-success' onclick='CheckOffAllTasks(\"";
+                        $button_content .= $_GET['id'] . "\")'>Check off All Tasks</button>
+                    </div>
+                    ";echo $button_content;} ?>
                 </div>
                 <div class="col"  style="margin: 30px;">
                     <div class="text-center">
@@ -48,7 +55,7 @@
                     <?php if($list_access != 1){ $button_content = "
                     <div style='position: absolute; right: 25px'>
                         <button type='button' class='btn btn-danger' onclick='DeleteAllDoneTasks(\"";
-                        $button_content .= $_GET['id'] . "\")'>Delete All Done</button>
+                        $button_content .= $_GET['id'] . "\")'>Delete All \"Done\" Tasks</button>
                     </div>
                     ";echo $button_content;} ?>
                 </div>

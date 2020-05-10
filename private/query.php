@@ -257,6 +257,13 @@ function select_done_tasks_by_list_id($con, $list_id){
     return mysqli_query($con, $query);
 }
 
+function select_in_progress_tasks_by_list_id($con, $list_id){
+    $query = "SELECT * FROM `task` ";
+    $query .= "WHERE todo_id = '".$list_id."' ";
+    $query .= "AND state = '0';";
+    return mysqli_query($con, $query);
+}
+
 function update_task_state($connection, $task_id, $state)
 {
     $query = "UPDATE `task` ";
