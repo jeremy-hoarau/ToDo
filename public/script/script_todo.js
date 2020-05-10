@@ -28,15 +28,6 @@ function DeleteAllDoneTasks(list_id)
     });
 }
 
-function DeleteList(id)
-{
-    $.post("delete_todo.php", { id: id},
-        function(data, status) {
-            if(status === 'success')
-                $('list-' + id).css("display", "none");
-        });
-}
-
 function DeleteTask(task_id, list_id) {
     $.post("delete_task.php", { task_id: task_id, list_id: list_id},
         function(data, status) {

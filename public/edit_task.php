@@ -65,7 +65,7 @@ if (is_post_request()){
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
                         <form id="login-form" class="form" action="" method="post">
-                            <h3 class="text-center color-4">Edit a task</h3>
+                            <h3 class="text-center color-4">Edit task: <?php echo htmlspecialchars($task['name']) ?></h3>
                             <div class="form-group">
                                 <label for="name" class="color-4">Task name:</label><br>
                                 <input type="text" name="name" id="name" class="form-control back-color-0 border-color-0"" value="<?php echo htmlspecialchars($task['name']);?>">

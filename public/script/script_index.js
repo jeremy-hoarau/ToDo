@@ -20,3 +20,11 @@ function TabToggleClasses()
     DarkMode();
 }
 
+function DeleteList(id)
+{
+    $.post("delete_todo.php", { id: id},
+        function(data, status) {
+            if(status === 'success')
+                $('#List-' + id).css("display", "none");
+        });
+}

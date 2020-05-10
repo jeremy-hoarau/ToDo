@@ -11,7 +11,6 @@ function select_user_by_pseudo($connection, $pseudo){
     $query = "SELECT * FROM `user` ";
     $query .= "WHERE pseudo = '".$pseudo."';";
     $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
     $user = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
     return $user;
@@ -21,7 +20,6 @@ function select_user_by_id($connection, $id){
     $query = "SELECT * FROM `user` ";
     $query .= "WHERE id = '".$id."';";
     $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
     $user = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
     return $user;
@@ -32,7 +30,6 @@ function select_user_by_email($connection, $email){
     $query = "SELECT * FROM `user` ";
     $query .= "WHERE email = '".$email."';";
     $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
     $user = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
     return $user;
@@ -43,7 +40,6 @@ function select_tasks_by_list_by_id($connection, $id)
     $query = "SELECT * FROM `task` ";
     $query .= "WHERE todo_id = '".$id."';";
     $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
     return $result;
 }
 
@@ -52,7 +48,6 @@ function select_list_by_id($connection, $id)
     $query = "SELECT * FROM `todo` ";
     $query .= "WHERE id = '".$id."';";
     $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
     $list = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
     return $list;
@@ -63,9 +58,7 @@ function select_lists_by_user_id($connection, $id)
     $id = db_escape($connection, $id);
     $query = "SELECT * FROM `todo` ";
     $query .= "WHERE creator_id = '".$id."';";
-    $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
-    return $result;
+    return mysqli_query($connection, $query);
 }
 
 function select_shared_lists_by_user_id($connection, $id)
@@ -76,9 +69,7 @@ function select_shared_lists_by_user_id($connection, $id)
     $query .= "WHERE user_id = '".$id."'";
     $query .= "AND authorised = '1' ";
     $query .= "OR authorised = '2');";
-    $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
-    return $result;
+    return mysqli_query($connection, $query);
 }
 
 function user_has_list_by_ids($connection, $user_id, $list_id)
@@ -87,7 +78,6 @@ function user_has_list_by_ids($connection, $user_id, $list_id)
     $query .= "WHERE id = ".$list_id." ";
     $query .= "AND creator_id = ".$user_id.";";
     $result = mysqli_query($connection, $query);
-    confirm_result_set($result);
     $has_list = mysqli_fetch_array($result)? true : false;
     mysqli_free_result($result);
     return $has_list;
@@ -208,12 +198,21 @@ function create_new_task($connection,$task_todo, $task_name, $task_state, $task_
 
 function update_task($connection, $task_id, $task_name, $task_state, $task_description)
 {
-    $id = db_escape($connection, $task_id);
     $name = db_escape($connection, $task_name);
     $description = db_escape($connection, $task_description);
     $query = "UPDATE `task` ";
     $query .= "SET name = '" . $name . "', state = '" . $task_state . "', description = '" . $description . "' ";
-    $query .= "WHERE id = " . $id . " ;";
+    $query .= "WHERE id = " . $task_id . " ;";
+    return mysqli_query($connection, $query);
+}
+
+function update_list($connection, $list_id, $list_name, $list_description)
+{
+    $name = db_escape($connection, $list_name);
+    $description = db_escape($connection, $list_description);
+    $query = "UPDATE `todo` ";
+    $query .= "SET name = '" . $name . "', description = '" . $description . "' ";
+    $query .= "WHERE id = " . $list_id . " ;";
     return mysqli_query($connection, $query);
 }
 
