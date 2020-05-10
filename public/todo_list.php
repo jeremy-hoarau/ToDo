@@ -20,6 +20,17 @@
         if($list_access == 0)
             redirect_to('index.php');
         ?>
+
+        <!-- Previous Page Button -->
+        <a href="<?php echo url_for('/index.php') ?>">
+            <button class="btn back-color-0 border-color-0 color-4" style="position: absolute; margin: 20px">
+                <svg class="bi bi-arrow-left" width="2em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M5.854 4.646a.5.5 0 010 .708L3.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+                    <path fill-rule="evenodd" d="M2.5 8a.5.5 0 01.5-.5h10.5a.5.5 0 010 1H3a.5.5 0 01-.5-.5z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+        </a>
+
         <div class="text-center">
             <div class="badge badge-pill badge-secondary color-4 back-color-0" style="font-size: xx-large; margin-top: 30px">
                 Todo List : <?php echo htmlspecialchars($list['name']);?>
@@ -46,7 +57,7 @@
                     </div>
                     <?php if($list_access != 1){ $button_content = "
                     <div style='position: absolute; right: 25px'>
-                        <button type='button' class='btn btn-success' onclick='CheckOffAllTasks(\"";
+                        <button type='button' class='btn btn-success' style='color:black' onclick='CheckOffAllTasks(\"";
                         $button_content .= $_GET['id'] . "\")'>Check off All Tasks</button>
                     </div>
                     ";echo $button_content;} ?>
@@ -64,7 +75,7 @@
                     </div>
                     <?php if($list_access != 1){ $button_content = "
                     <div style='position: absolute; right: 25px'>
-                        <button type='button' class='btn btn-danger' onclick='DeleteAllDoneTasks(\"";
+                        <button type='button' class='btn btn-danger' style='color:black' onclick='DeleteAllDoneTasks(\"";
                         $button_content .= $_GET['id'] . "\")'>Delete All \"Done\" Tasks</button>
                     </div>
                     ";echo $button_content;} ?>
@@ -109,16 +120,26 @@ function display_tasks($con, $list_id, $list_access)
                                 <div class='row align-items-center'>
                                     "; if($i == 1 && $list_access == 2) {
                                         $task_content .=
-                                            "<button class='btn btn-warning' onclick='ChangeTaskState(";$task_content .=
-                                                $task['id'] . ", " . $_GET['id'] . ")'><- Move to: \"In Progress\" </button>";
+                                            "<button style='color:black' class='btn btn-warning' onclick='ChangeTaskState(";$task_content .=
+                                                $task['id'] . ", " . $_GET['id'] . ")'>
+                                                <svg class='bi bi-arrow-left' width='1.5em' height=1.5em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>
+                                                  <path fill-rule='evenodd' d='M5.854 4.646a.5.5 0 010 .708L3.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z' clip-rule='evenodd'/>
+                                                  <path fill-rule='evenodd' d='M2.5 8a.5.5 0 01.5-.5h10.5a.5.5 0 010 1H3a.5.5 0 01-.5-.5z' clip-rule='evenodd'/>
+                                                </svg>Move to: \"In Progress\"
+                                            </button>";
                                     }
                                     $task_content .= "<div class='col'>
                                         ".htmlspecialchars($task['name'])."
                                     </div>
                                     "; if($i == 0 && $list_access == 2) {
                                         $task_content .=
-                                            "<button class='btn btn-success' onclick='ChangeTaskState(";$task_content .=
-                                                $task['id'] . ", " . $_GET['id'] . ")'>Move to: \"Done\" -></button>";
+                                            "<button style='color:black' class='btn btn-success' onclick='ChangeTaskState(";$task_content .=
+                                                $task['id'] . ", " . $_GET['id'] . ")'>Move to: \"Done\" 
+                                                <svg class='bi bi-arrow-right' width='1.5em' height='1.5em' viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'>
+                                                  <path fill-rule='evenodd' d='M10.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 8l-2.647-2.646a.5.5 0 010-.708z' clip-rule='evenodd'/>
+                                                  <path fill-rule='evenodd' d='M2 8a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 8z' clip-rule='evenodd'/>
+                                                </svg>
+                                            </button>";
                                     }
                                 $task_content .=
                                 "</div>
@@ -132,12 +153,12 @@ function display_tasks($con, $list_id, $list_access)
                                 "; if($list_access == 2){$task_content .=
                 "<div class='col-2'>
                                     <div class='row justify-content-md-center' style='margin:25px'>
-                                        <a href='". url_for('/edit_task.php?task_id=') . $task['id'] ."&list_id=" .$_GET['id']. "' class='btn btn-info'>Edit</a>
+                                        <a href='". url_for('/edit_task.php?task_id=') . $task['id'] ."&list_id=" .$_GET['id']. "' class='btn btn-info' style='color:black'>Edit</a>
                                     </div>
                                     <div class='row justify-content-md-center' style='margin:25px'>
-                                        <button type='button' class='btn btn-danger' onclick='DeleteTask(";
+                                        <a type='button' class='btn btn-danger' style='color:black' onclick='DeleteTask(";
                 $task_content .= $task['id'].",".$list_id;
-                $task_content .= ")'>Delete</button>
+                $task_content .= ")'>Delete</a>
                                     </div>
                                 </div>";
             } $task_content .=
