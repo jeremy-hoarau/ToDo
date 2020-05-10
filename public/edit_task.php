@@ -2,7 +2,7 @@
 require('../private/config.php');
 if(!isset($_SESSION['id']))
     redirect_to("log.php");
-$page_name = 'Edit task';
+
 
 $task_name = '';
 $task_state = '';
@@ -15,10 +15,12 @@ ob_start();
 if(is_get_request()){
     if ($task_id != '' && $task_todo != ''){
         $connexion = connect_db();
+
         $result = select_task_by_id($connexion, $task_id);
         $task = mysqli_fetch_assoc($result);
         mysqli_free_result($result);
         disconnect_db($connexion);
+        $page_name = 'Edit task - ' . htmlspecialchars($task['name']);
     }
 }
 if (is_post_request()){
@@ -26,7 +28,7 @@ if (is_post_request()){
     $task_state = $_POST['state'] ? $_POST['state'] : '';
     $task_description = $_POST["description"] ? $_POST["description"] : '';
 
-    if ($task_name != '' && $task_state != '' && $task_description != ""){
+    if ($task_name != '' && $task_state != ''){
         if ($task_state == "In progress"){
             $task_state = 0;
         }
@@ -38,6 +40,11 @@ if (is_post_request()){
         mysqli_free_result($result);
         disconnect_db($connexion);
         redirect_to("todo_list.php?id=".$task_todo);
+    }
+    if ($task_name == ''){
+        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            The name cannot be empty!
+                            </div>";
     }
 }
 
@@ -52,19 +59,31 @@ if (is_post_request()){
                             <h3 class="text-center color-4">Edit a task</h3>
                             <div class="form-group">
                                 <label for="name" class="color-4">Task name:</label><br>
-                                <input type="text" name="name" id="name" class="form-control back-color-0 border-color-0"" value="<?php echo $task['name'];?>">
+                                <input type="text" name="name" id="name" class="form-control back-color-0 border-color-0"" value="<?php echo htmlspecialchars($task['name']);?>">
                             </div>
                             <div class="form-group">
                                 <label for="state" class="color-4">Select a state for the task:</label>
                                 <select class="form-control back-color-0 border-color-0"" name="state" id="state">
                                     <?php
-                                        if ($task['state'] == 0){
-                                            echo "<option>In progress</option>
+                                        if(is_post_request()){
+                                            if($task['state'] == 0 || isset($_POST['state']) && $_POST['state'] == 'In progress'){
+                                                echo "<option>In progress</option>
                                                   <option>Done</option>";
-                                        }
-                                        elseif ($task['state'] == 1){
-                                            echo "<option>Done</option>
+                                            }
+                                            elseif ($task['state'] == 1 || isset($_POST['state']) && $_POST['state'] == 'Done'){
+                                                echo "<option>Done</option>
                                                   <option>In progress</option>";
+                                            }
+                                        }
+                                        else{
+                                            if ($task['state'] == 0){
+                                                echo "<option>In progress</option>
+                                                  <option>Done</option>";
+                                            }
+                                            elseif ($task['state'] == 1){
+                                                echo "<option>Done</option>
+                                                  <option>In progress</option>";
+                                            }
                                         }
                                     ?>
                                     ?>
@@ -72,7 +91,7 @@ if (is_post_request()){
                             </div>
                             <div class="form-group">
                                 <label for="description" class="color-4">Description</label>
-                                <textarea class="form-control back-color-0 border-color-0"" name="description" id="description" rows="4" style="text-align: left"><?php echo $task['description'];?></textarea>
+                                <textarea class="form-control back-color-0 border-color-0" name="description" id="description" rows="4" style="text-align: left"><?php echo is_post_request()? $_POST['description'] : htmlspecialchars($task['description']);?></textarea>
                             </div>
                             <div class="form-group">
                                 <input type="submit" name="submit" class="btn btn-info btn-md back-color-4 border-color-4 color-0" value="submit">

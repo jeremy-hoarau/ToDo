@@ -17,7 +17,7 @@ if (is_post_request()){
     $task_state = $_POST['state'] ? $_POST['state'] : '';
     $task_description = $_POST["description"] ? $_POST["description"] : '';
 
-    if ($task_todo != '' && $task_name != '' && $task_state != '' && $task_description != ""){
+    if ($task_todo != '' && $task_name != '' && $task_state != ''){
         if ($task_state == "In progress"){
             $task_state = 0;
         }
@@ -28,6 +28,11 @@ if (is_post_request()){
         $result = create_new_task($connexion, $task_todo, $task_name, $task_state, $task_description);
         disconnect_db($connexion);
         redirect_to("todo_list.php?id=".$task_todo);
+    }
+    if ($task_name == ''){
+        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            The name cannot be empty!
+                            </div>";
     }
 }
 
@@ -47,13 +52,27 @@ if (is_post_request()){
                             <div class="form-group">
                                 <label for="state" class="color-4">Select a state for the task:</label>
                                 <select class="form-control back-color-0 border-color-0" name="state" id="state">
-                                    <option>In progress</option>
-                                    <option>Done</option>
+                                    <?php
+                                        if(is_post_request()){
+                                            if($task_state == 'In progress'){
+                                                echo "<option>In progress</option>
+                                                      <option>Done</option>";
+                                            }
+                                            elseif ($task_state == 'Done'){
+                                                echo "<option>Done</option>
+                                                      <option>In progress</option>";
+                                            }
+                                        }
+                                        else{
+                                            echo "<option>In progress</option>
+                                                      <option>Done</option>";
+                                        }
+                                    ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="description" class="color-4">Description</label>
-                                <textarea class="form-control back-color-0 border-color-0" name="description" id="description" rows="4"></textarea>
+                                <textarea class="form-control back-color-0 border-color-0" name="description" id="description" rows="4"><?php echo (is_post_request() && isset($_POST['description']))? $_POST['description']: '';?></textarea>
                             </div>
                             <div class="form-group">
                                 <input type="submit" name="submit" class="btn btn-info btn-md back-color-4 border-color-4 color-0" value="submit">
