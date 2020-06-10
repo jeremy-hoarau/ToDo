@@ -91,10 +91,22 @@ function add_new_user($connection, $username, $email, $password){
 }
 
 function delete_list_by_id($connection, $id){
-    $query = "DELETE FROM `todo` ";
+    $query = "DELETE FROM todo ";
     $query .= "WHERE id = ".$id.";";
     mysqli_query($connection, $query);
     return mysqli_affected_rows($connection);
+}
+
+function clear_todo_by_id($connection, $id) {
+    $query = "DELETE FROM task ";
+    $query .= "WHERE todo_id = ".$id.";";
+    return mysqli_query($connection, $query);
+}
+
+function clear_todo_from_user_by_id($connection, $list_id) {
+    $query = "DELETE FROM user_has_todo ";
+    $query .= "WHERE todo_id = ".$list_id.";";
+    return mysqli_query($connection, $query);
 }
 
 function has_friend_request($connection, $id){

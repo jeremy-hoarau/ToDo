@@ -400,7 +400,7 @@ class SMTP
     }
 
     /**
-     * Initiate a TLS (encrypted) session.
+     * Initiate a TLS (encrypted) sessions.
      *
      * @return bool
      */

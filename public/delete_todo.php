@@ -5,6 +5,8 @@
         && isset($_POST['id'])
         && isset($_SESSION['id'])
         && user_has_list_by_ids($con, $_SESSION['id'], $_POST['id'])
+        && clear_todo_by_id($con, $_POST['id'])
+        && clear_todo_from_user_by_id($con, $_POST['id'])
         && delete_list_by_id($con, $_POST['id']) >= 1)
     {
         disconnect_db($con);
